@@ -2,7 +2,7 @@ Title: TBD
 
 Purpose: entertainment
 
-Description of product, including an assessment of the originality of the project: 2D role-playing game from a top-down perspective
+Description of product, including an assessment of the originality of the project: 2D role-playing game from a top-down perspective. The originality of the project would be due to the story/characters. Other than that, it's hard to make an original RPG in terms of truly unique gameplay.
 
 Audience/Stakeholders: audience is whoever chooses to play the game, stakeholders: developers, potential players/customers
 
