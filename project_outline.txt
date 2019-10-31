@@ -11,6 +11,8 @@ Preliminary group assignments: 1) character development (player and NPC), 2) wor
 Strengths, reliability, scalability, security of the proposed solution
 
 Preliminary functional and non-functional requirements (large scale)
+Functional Requirements:
+ - Initialize Players and Actors
 
 Scope: core functionality, prioritized nice-to-haves
 
