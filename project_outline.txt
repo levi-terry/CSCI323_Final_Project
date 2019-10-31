@@ -1,0 +1,17 @@
+Title: TBD
+
+Purpose: entertainment
+
+Description of product, including an assessment of the originality of the project: 2D role-playing game from a top-down perspective
+
+Audience/Stakeholders: audience is whoever chooses to play the game, stakeholders: developers, potential players/customers
+
+Preliminary group assignments: 1) character development (player and NPC), 2) world development, 3) graphics and animations, 4) interface, story, & project management
+
+Strengths, reliability, scalability, security of the proposed solution
+
+Preliminary functional and non-functional requirements (large scale)
+
+Scope: core functionality, prioritized nice-to-haves
+
+Preliminary development schedule
