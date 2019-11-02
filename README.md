@@ -3,20 +3,24 @@
 Trello Link: https://trello.com/b/bGT0D0sb/project
 
 # Roles
-### Character Development
+### Character/Item Development
 - Attributes
 - Actions (pickup item, attack)
-- Movement
-- Character & Player CLASS development (Player inherits Character)
+- Movement (from input)
+- Character & Player Class (Player inherits Character)
 ### World Development
-- Map Generation
-- Collision Detection
-- Player & Actor Initialization
-- miscItems? Initialization
+- Map generation (random maze)
+- Collision/boundary detection
+- Character generation
+- Item generation
 ### Graphics and Animations
-- Character models & sprites
-- Map Background/Wall Generation
+- Character models
+- Item models
+- Map background/wall Generation
 - Character animation (move, attack)
-### Interfaces, story, and project management
-- Storyline (group)
+### Interfaces, story, input, and project management
+- Inventory
+- Menu
+- Story (characters, plotline)
 - Keyboard Input
+- Mouse Input
