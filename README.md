@@ -1,5 +1,7 @@
 # CSCI323_Final_Project
 
+JavaFX Game Development: https://gamedevelopment.tutsplus.com/tutorials/introduction-to-javafx-for-game-development--cms-23835
+
 Trello Link: https://trello.com/b/bGT0D0sb/project
 
 # Roles
