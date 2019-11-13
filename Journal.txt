@@ -1,11 +1,11 @@
-DISCLAIMER: This journal is for you all to review and add an entry to. I decided to keep it in the project just so everyone is filled
-in on any changes I made or added during the day
+DISCLAIMER: This journal is for you all to review and add an entry to. I decided to keep it in the project so everyone is filled
+in on any changes made or added during the day
 
 Author: John Boyle
 Entry Date: 11/12/2019
   Today we made great progress towards the project by finishing up our requirements specifications in class, and proceeded to lay
-  out the base classes and architecture for our project. So far, we have created a the main driver, the sprite class, player class,
+  out the base classes for our project. So far, we have created the main driver, the sprite class, player class,
   weapon class, and enemy class. With the latter 3 all extending the Sprite class so they may be used as sprites.
   We decided which screen size would best fit our sprite character and started to mess around with rendering our sprite to the screen.
   Finally, I took the time to create the basic necessities of the sprite class, which is instantiating an Image, rendering it, and
-  controlling it's movement speed. I also added base notes for the sprite class and all other classes created so far
+  controlling it's movement speed. I also added base notes for the sprite class and all other classes created so far.
