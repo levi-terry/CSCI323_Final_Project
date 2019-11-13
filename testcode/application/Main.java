@@ -19,14 +19,14 @@ public class Main extends Application {
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			Canvas canvas = new Canvas( 512, 512 );
-		    root.getChildren().add( canvas );
-		 
-		    GraphicsContext gc = canvas.getGraphicsContext2D();
-			
+			root.getChildren().add( canvas );
+
+			GraphicsContext gc = canvas.getGraphicsContext2D();
+
 			//Instantiate player
-		    Player player = new Player();
-		    //render the player
-		    player.render(gc);
+			Player player = new Player();
+			//render the player
+			player.render(gc);
 			primaryStage.show();
 		} 
 		catch(Exception e) 
