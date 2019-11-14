@@ -51,7 +51,23 @@ public class Sprite
         gc.drawImage(image, posX, posY);
     }
  
-    //Gets a 2D boundary for our image used for collision detection
+    public double getX() {
+		return posX;
+	}
+
+	public double getY() {
+		return posY;
+	}
+
+	public double getWidth() {
+		return width;
+	}
+
+	public double getHeight() {
+		return height;
+	}
+
+	//Gets a 2D boundary for our image used for collision detection
     public Rectangle2D getBoundary()
     {
         return new Rectangle2D(posX, posY, width, height);
@@ -61,5 +77,24 @@ public class Sprite
     public boolean intersects(Sprite s)
     {
         return s.getBoundary().intersects(this.getBoundary());
+    }
+    //return velocity
+    public double getDX()
+    {
+    	return dx;
+    }
+    public double getDY()
+    {
+    	return dy;
+    }
+    public void setVelocity(double dx, double dy)
+    {
+    	this.dx = dx;
+    	this.dy = dy;
+    }
+    public void move()
+    {
+    	posX += dx;
+    	posY += dy;
     }
 }
