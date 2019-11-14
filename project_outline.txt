@@ -28,3 +28,10 @@ Week 3 - Individual development, bring pieces together, check progress
 Week 4 - Testing/working out bugs
 Week 5 - Finishing up/delivery
 
+Due Date Schedule:
+Week 1 (Nov 5-7)- Proposal Draft/Outline & Tool use (Nov 5th)
+Week 2 (Nov 12-14)- Requirements Specification (Nov 12)
+Week 3 (Nov 19-21)- System Modeling (Nov 19), Implementation Checkpoint (Nov 21)
+Week 4 (Nov 26-28)- Thanksgiving Break
+Week 5 (Dec 3-5)- Implementation Checkpoint (Dec 3)
+Week 6 (Dec 10-12)- Project Demo Due
