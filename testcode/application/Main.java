@@ -14,7 +14,7 @@ import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.canvas.GraphicsContext;\
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -45,102 +45,17 @@ public class Main extends Application {
 		    //render the player
 		    gc.drawImage(map, 0, 0);
 		    player.render(gc);
-		    scene.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
 
-				@Override
-				public void handle(KeyEvent event) {
-					// TODO Auto-generated method stub
-					String code = event.getCode().toString();
-					System.out.println(code + " Pressed");
-                    if(!input.contains(code))
-                    {
-                    	input.add(code);
-                    }
-				}
-			});
-			
-		    scene.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
-
-				@Override
-				public void handle(KeyEvent event) {
-					// TODO Auto-generated method stub
-					String code = event.getCode().toString();
-					System.out.println(code + " Released");
-					input.remove(code);
-				}
-			});
-		    
-		    
-		    
-		    new AnimationTimer() {
-				
-				@Override
-				public void handle(long now) {
-					// TODO Auto-generated method stub
-					if(input.contains("DOWN"))
-					{
-						player.setVelocity(0, 5);
-						player.move();
-						gc.clearRect(player.getX(), player.getY(), player.getWidth(), player.getHeight());
-						drawBackground(gc);
-						player.render(gc);
-					}
-					else
-					{
-						player.setVelocity(0, 0);
-					}
-					
-					if(input.contains("UP"))
-					{
-						player.setVelocity(0, -5);
-						player.move();
-						gc.clearRect(player.getX(), player.getY(), player.getWidth(), player.getHeight());
-						drawBackground(gc);
-						player.render(gc);
-					}
-					else
-					{
-						player.setVelocity(0, 0);
-					}
-					if(input.contains("LEFT"))
-					{
-						player.setVelocity(-5, 0);
-						player.move();
-						gc.clearRect(player.getX(), player.getY(), player.getWidth(), player.getHeight());
-						drawBackground(gc);
-						player.render(gc);
-					}
-					else
-					{
-						player.setVelocity(0, 0);
-					}
-					if(input.contains("RIGHT"))
-					{
-						player.setVelocity(5, 0);
-						player.move();
-						gc.clearRect(player.getX(), player.getY(), player.getWidth(), player.getHeight());
-						drawBackground(gc);
-						player.render(gc);
-					}
-					else
-					{
-						player.setVelocity(0, 0);
-					}
-					gc.setFill(null);
-					gc.fillText("Player Coords: (" + player.getX() + " : " + player.getY() + ")" , 100, 50);
-				}
-			}.start();
+			//Instantiate player
+			Player player1 = new Player();
+			//render the player
+			player1.render(gc);
 			primaryStage.show();
 		} 
 		catch(Exception e) 
 		{
 			e.printStackTrace();
 		}
-	}
-	public void drawBackground(GraphicsContext gc)
-	{
-		Image map = new Image("Images/Dungeon.jpg");
-		gc.drawImage(map, 0, 0);
 	}
 	
 	public static void main(String[] args) {
