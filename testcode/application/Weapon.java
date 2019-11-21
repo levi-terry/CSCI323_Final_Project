@@ -39,8 +39,4 @@ public class Weapon extends Sprite
 	public void setAmmunition(int Ammo) {
 		this.ammunition = Ammo;
 	}
-
-
-
-//Ammo - Damage - Name - Serial Num
 }
