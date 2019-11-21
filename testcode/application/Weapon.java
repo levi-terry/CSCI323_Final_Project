@@ -8,9 +8,39 @@ package application;
 
 public class Weapon extends Sprite
 {
-	
-	public Weapon(String imgURL)
-	{
+	private int damage;
+	private int ammunition;
+	private String weaponName;
+	private int serialNum;
+
+
+
+	public Weapon(String imgURL) {
 		super(imgURL);
 	}
+
+	//Getters
+	public int getDamage() {
+		return damage;
+	}
+
+	public int getAmmunition() {
+		return Ammo;
+	}
+
+	public int getSerialNum() {
+		return serialNum;
+	}
+
+	public String getWeaponName() {
+		return weaponName;
+	}
+// Ammo Setter
+	public void setAmmunition(int Ammo) {
+		this.ammunition = Ammo;
+	}
+
+
+
+//Ammo - Damage - Name - Serial Num
 }
