@@ -7,8 +7,34 @@ package application;
  */
 public class Enemy extends Sprite
 {
+	private int health;
+	private int damage;
+	private Weapon weapon;
+	// need to get image array
+
+
 	public Enemy(String imgURL)
 	{
 		super(imgURL);
 	}
+	// Getters
+	public Weapon getWeapon() {
+		return weapon;
+	}
+
+	public int getHealth() {
+		return health;
+	}
+
+	public int getDamage() {
+		return damage;
+	}
+	//Health Setter
+
+	public void setHealth(int health) {
+		this.health = health;
+	}
+
+
+
 }
