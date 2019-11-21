@@ -1,4 +1,7 @@
 package application;
+
+import javafx.scene.image.Image;
+
 /*
  *	AUTHORS: John Boyle, Colton Gerth, Levi Terry, Brendan Hagan
  *	CLASS: Enemy.java
@@ -10,7 +13,7 @@ public class Enemy extends Sprite
 	private int health;
 	private int damage;
 	private Weapon weapon;
-	// need to get image array
+	private Image[] animation;
 
 
 	public Enemy(String imgURL)
@@ -22,6 +25,9 @@ public class Enemy extends Sprite
 		return weapon;
 	}
 
+	private Image[] getAnimation() {
+		return animation; }
+
 	public int getHealth() {
 		return health;
 	}
@@ -29,12 +35,12 @@ public class Enemy extends Sprite
 	public int getDamage() {
 		return damage;
 	}
-	//Health Setter
 
+	//Setters
+	public void setAnimation(Image[] animation) {
+		this.animation = animation;
+	}
 	public void setHealth(int health) {
 		this.health = health;
 	}
-
-
-
 }
