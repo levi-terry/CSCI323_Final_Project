@@ -25,7 +25,7 @@ public class Weapon extends Sprite
 	}
 
 	public int getAmmunition() {
-		return Ammo;
+		return ammunition;
 	}
 
 	public int getSerialNum() {
