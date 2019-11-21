@@ -15,4 +15,5 @@ public class Player extends Sprite
 	{
 		super("Images/Untitled_Artwork.png");
 	}
+	
 }
