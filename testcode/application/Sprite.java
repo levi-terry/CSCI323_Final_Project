@@ -11,6 +11,7 @@ import javafx.scene.image.Image;
 
 public class Sprite
 {
+	//PRIVATE Global Variables
     private Image image;
     private double posX;
     private double posY;    
@@ -38,6 +39,7 @@ public class Sprite
     	posX = x;
     	posY = y;
     }
+
     //Method to update position of the sprite relative to time.
     public void update(double time)
     {
@@ -50,23 +52,32 @@ public class Sprite
     {
         gc.drawImage(image, posX, posY);
     }
- 
+    //returns x coordinate
     public double getX() {
 		return posX;
 	}
-
+    //returns y coordinate
 	public double getY() {
 		return posY;
 	}
-
+	//returns sprite width (used for collision detection)
 	public double getWidth() {
 		return width;
 	}
-
+	//returns sprite height (used for collision detection)
 	public double getHeight() {
 		return height;
 	}
-
+	//returns sprite image
+	public Image getImage()
+	{
+		return image;
+	}
+	//sets the sprite image (used for animation)
+	public void setFrame(Image img)
+	{
+		image = img;
+	}
 	//Gets a 2D boundary for our image used for collision detection
     public Rectangle2D getBoundary()
     {
@@ -78,20 +89,33 @@ public class Sprite
     {
         return s.getBoundary().intersects(this.getBoundary());
     }
-    //return velocity
+    //return dx velocity
     public double getDX()
     {
     	return dx;
     }
+    //returns dy velocity
     public double getDY()
     {
     	return dy;
     }
+    //sets the Y coordinate
+    public void setY(double y)
+    {
+    	posY = y;
+    }
+    //sets the X coordinate
+    public void setX(double x)
+    {
+    	posX = x;
+    }
+    //sets the velocity of the sprite
     public void setVelocity(double dx, double dy)
     {
     	this.dx = dx;
     	this.dy = dy;
     }
+    //moves the sprite by adding velocity to x and y coordinates
     public void move()
     {
     	posX += dx;
