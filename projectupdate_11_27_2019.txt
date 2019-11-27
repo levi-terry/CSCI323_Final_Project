@@ -1,0 +1,35 @@
+ (Dungeons Deep) 
+Project To-Do List and Updated Changes (11/27/2019)
+
+  Hey Guys, I've been crackin at this project and we are in a really good spot.
+  After this latest commit, most of the core requirement specifications have been taken care of.
+  Specifically, the KeyListener (used for player movement), Player Animation, Player/Sprite/Tiles Rendering,
+  Collision detection, and major objects (tiles, sprites) instantiation has been completed.
+  I have listed below a list things we still need to complete. This list is unfinished, but will atleast give
+  us an idea on whats next. The empty brackets is meant for an assignment, but I don't want to assign anyone
+  to anything as of right now. Feel free to first check out and get familiar with the updated changes to the game, then 
+  feel free to go over this list again and take a crack at one of these priorities listed below. The game is functioning
+  and I hope it stays that way. If you have any questions feel free to shoot me (John) a text (4oh6)-459-782one  
+|=============|
+|High Priority|
+|=============|
+!() - create a 1D array of integers for the x & y coordinates
+	of the tiles (have fun)
+!() - render all tiles to the map (create map)
+!() - Make 2D sprites transparent
+() - Crop/Resize Player Sprite Image Canvas to have more accurate dimensions for Collision Detection
+() - draw walking (left and right), jumping, and shooting/attacking animation for Player
+|===============|
+|Medium Priority|
+|===============|
+() - draw and create a splash screen (only have start and quit game as options)
+() - draw and create a game over screen (Can be done in the GameWorld.java with a GraphicsContext Method similar to drawBackground())
+() - draw or find (must be transparent 2D) enemy sprites
+() - Instantiate and render enemy sprites to screen (in GameWorld.java)
+() - create weapon and render it to the player and game screen
+|============|
+|Low Priority|
+|============|
+() - Enable player weapon aiming based off 
+	mouse position in the screen
+() - smooth out collision detection
