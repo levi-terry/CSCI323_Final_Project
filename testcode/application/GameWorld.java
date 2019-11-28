@@ -25,6 +25,7 @@ public class GameWorld extends Stage
 	private Tile tiles[];
 	private Tile coins[];
 	private ArrayList<String> keyinput = new ArrayList<>();
+	private ArrayList<Enemy> goblins;
 	
 	//DEFAULT CONSTRUCTOR: Point of Execution
 	public GameWorld()
@@ -39,9 +40,21 @@ public class GameWorld extends Stage
 	    player = new Player();
 	    player.setVelocity(0, 0);
 	  	
+	    instantiateGoblins();
+	    
 	    //Instantiates tiles
 	  	instantiateTiles();
 	}
+	//Method to instantiate goblins, we must input a valid img location and also update the goblins starting positions
+	private void instantiateGoblins()
+	{
+		//unit test
+		goblins = new ArrayList<>();
+		Enemy g0 = new Enemy("Images/EnemySprites/goblins/running/runLeft0.png");
+		g0.updatePosition(800, 200);
+		goblins.add(g0);
+	}
+	
 	//Creates our tiles (Not calling this method would result in a NullPointerException)
 	private void instantiateTiles()
 	{
@@ -93,7 +106,7 @@ public class GameWorld extends Stage
 		}
 	}
 	//This method is called continuously throughout our game loop to continuously render our objects to the screen
-	private void updateSprites(GraphicsContext gc)
+	private void updateSprites(GraphicsContext gc, long now)
 	{
 		drawBackground(gc);
 		
@@ -102,6 +115,15 @@ public class GameWorld extends Stage
 		{
 			player.move();
 			player.render(gc);
+		}
+		
+		//and enemy sprites
+		for(Enemy e : goblins)
+		{
+			if(e.isAlive())
+			{
+				e.update(player, gc, now);
+			}
 		}
 		
 		//checkCollisions is called when we are updating our sprites
@@ -178,7 +200,7 @@ public class GameWorld extends Stage
 				
 				//These 3 Method calls are to be called continuously while the game is running
 				player.implementGravity(gc);
-				updateSprites(gc);
+				updateSprites(gc, now);
 				keyListener(keyinput, gc, now);
 				
 				//OPTIONAL: Added Player Coordinates to the screen 

@@ -1,5 +1,9 @@
 package application;
 
+import java.util.Random;
+
+import javafx.animation.AnimationTimer;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 /*
@@ -13,34 +17,156 @@ public class Enemy extends Sprite
 	private int health;
 	private int damage;
 	private Weapon weapon;
-	private Image[] animation;
-
-
+	private Image[] walkRight, walkLeft, attackRight, attackLeft, hurt, die;
+	private boolean alive;
+	private AnimationTimer animateEnemy;
+	
 	public Enemy(String imgURL)
 	{
 		super(imgURL);
+		instantiateEnemy();
+	}
+	
+	private void instantiateEnemy()
+	{
+		Random randomStat = new Random();
+		health = randomStat.nextInt(50) + 10;
+		damage = randomStat.nextInt(50) + 10;
+		weapon = null;
+		alive = true;
+		instantiateAnimation();
+	}
+	private void instantiateAnimation()
+	{
+		walkRight = new Image[5];
+		walkLeft = new Image[5];
+		attackLeft = new Image[5];
+		attackRight = new Image[5];
+		hurt = new Image[5];
+		die = new Image[5];
+		String imgLoc = "Images/EnemySprites/goblins/";
+		for(int i = 0; i < 5; i++)
+		{
+			walkRight[i] = new Image(imgLoc + "running/runRight" + i + ".png");
+			walkLeft[i] = new Image(imgLoc + "running/runLeft" + i + ".png");
+			attackLeft[i] = new Image(imgLoc + "attack/attackLeft" + i + ".png");
+			attackRight[i] = new Image(imgLoc + "attack/attackRight" + i + ".png");
+			hurt[i] = new Image(imgLoc + "hurt/hurt" + i + ".png");
+			die[i] = new Image(imgLoc + "dying/dying" + i + ".png");
+		}
+		animateEnemy = itrFrames(walkRight);
+	}
+	public void update(Player p, GraphicsContext gc, long now)
+	{
+		if(p.getX() < getX())
+		{
+			animateEnemy = itrFrames(walkLeft);
+			if(p.intersects(this))
+			{
+				animateEnemy = itrFrames(attackLeft);
+			}
+			animateEnemy.handle(now);
+			setVelocity(-2, 0);
+			move();
+			render(gc);
+		}
+		else
+		{
+			animateEnemy = itrFrames(walkRight);
+			if(p.intersects(this))
+			{
+				animateEnemy = itrFrames(attackRight);
+			}
+			animateEnemy.handle(now);
+			setVelocity(2, 0);
+			move();
+			render(gc);
+		}
+		
+		
+	}
+	//Method to return the next image in the image array
+	public Image getFrame(Image[] frames)
+    {
+        return frames[getNextIndex(frames)];
+    }
+    //Method to find and return the next index to while iterating through Image array
+	private int getNextIndex(Image[] g)
+	{
+		int c = 0;
+		for(int i = 0; i < g.length; i++)
+		{
+			if(g[i].equals(getImage()))
+			{
+				//TEST if Player is using image, then return next index
+				System.out.println("Image match found at index: " + i);
+				c = i + 1;
+				if(c > 4)
+				{
+					c = 0;
+				}
+			}
+		}
+		return c;
+	}
+	//Creates an AnimationTimer to iterate through our Image Array
+	private AnimationTimer itrFrames(Image[] f)
+	{
+		AnimationTimer t;
+		t = new AnimationTimer() {
+			@Override
+			public void handle(long now) {
+					setFrame(getFrame(f));			
+			}
+			
+		};
+		return t;
 	}
 	// Getters
-	public Weapon getWeapon() {
+	public Weapon getWeapon() 
+	{
 		return weapon;
 	}
-
-	private Image[] getAnimation() {
-		return animation; }
-
+	public boolean isAlive()
+	{
+		return alive;
+	}
+	public void alive(boolean alive)
+	{
+		this.alive = alive;
+	}
 	public int getHealth() {
 		return health;
 	}
-
 	public int getDamage() {
 		return damage;
 	}
-
-	//Setters
-	public void setAnimation(Image[] animation) {
-		this.animation = animation;
+	public Image[] getWalkRight() {
+		return walkRight;
 	}
+	public Image[] getWalkLeft() {
+		return walkLeft;
+	}
+	public Image[] getAttackRight() {
+		return attackRight;
+	}
+	public Image[] getAttackLeft() {
+		return attackLeft;
+	}
+	public Image[] getHurt() {
+		return hurt;
+	}
+	public Image[] getDie() {
+		return die;
+	}
+	//Setters
 	public void setHealth(int health) {
 		this.health = health;
 	}
+	public void setDamage(int damage)
+	{
+		this.damage = damage;
+	}
+	
+	
 }
