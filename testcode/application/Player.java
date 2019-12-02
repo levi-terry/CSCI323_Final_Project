@@ -13,8 +13,9 @@ import javafx.scene.image.Image;
  */
 public class Player extends Sprite
 {
-	int hp, atk, lvl;
-	boolean alive;
+	int hp, atk, lvl, money;
+	//booleans flags to check enable certain game conditions
+	boolean alive, colliding;
 	Weapon weapon;
 	
 	//Image Arrays are used for Player Animation
@@ -32,7 +33,9 @@ public class Player extends Sprite
 		hp = 100;
 		atk = 5;
 		lvl = 0;
+		money = 0;
 		alive = true;
+		colliding = false;
 		initAnimationFrames();
 	}
 	//Initializes the players Image Arrays for player animation
@@ -130,6 +133,7 @@ public class Player extends Sprite
 		t = new AnimationTimer() {
 			@Override
 			public void handle(long now) {
+					//Every game ms the frame is set to the next frame in the animation
 					setFrame(getFrame(f));			
 			}
 			
@@ -157,9 +161,14 @@ public class Player extends Sprite
 			//**THIS COMMENTED STUB IS USED TO SET WHICH IMAGE ARRAY TO USE FOR ANIMATIONTIMER
 			//t = itrFrames(jump);
 			t.handle(now);
-			setVelocity(2, -10);
-			move();
-			render(gc);
+			
+			//attempt at a proper jump animation
+			if(getY() < (getY() - getHeight()))
+				render(gc);
+			else
+				jump();
+				move();
+				render(gc);
 		}
 		else if(way == "DOWN")
 		{
@@ -189,9 +198,36 @@ public class Player extends Sprite
 
 		}
 	}
+	//Attempt to create a player jump. W.I.P
+	public void jump()
+	{
+			System.out.println("Player jumping");
+			setVelocity(getDX(), -5);
+			setY(getY() - (getHeight()/4));
+	}
+	//Method is used to only get the top quarter of a Tile 2D dimension so the player has a more accurate movement (Any questions I can explain)
+	public boolean intersectsEdge(Tile t)
+	{
+		if(t.getEdgeBoundary().intersects(getBoundary()))
+			return true;
+		else
+			return false;
+	}
 	
 	
 	//Player Class Getters & Setters: Very Much Required.
+	public void deposit(int c)
+	{
+		money += c;
+	}
+	public void withdrawl(int c)
+	{
+		money -= c;
+	}
+	public int getMoney()
+	{
+		return money;
+	}
 	public int getHp() {
 		return hp;
 	}
@@ -224,6 +260,12 @@ public class Player extends Sprite
 	}
 	public void setAlive(boolean alive) {
 		this.alive = alive;
+	}
+	public boolean isColliding() {
+		return colliding;
+	}
+	public void setColliding(boolean colliding) {
+		this.colliding = colliding;
 	}
 	public Weapon getWeapon() {
 		return weapon;
