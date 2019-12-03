@@ -32,7 +32,8 @@ public class Weapon extends Sprite {
 	public String getWeaponName() {
 		return weaponName;
 	}
-// Ammo Setter
+
+	// Ammo Setter
 	public void setAmmunition(int Ammo) {
 		this.ammunition = Ammo;
 	}

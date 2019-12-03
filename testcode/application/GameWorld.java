@@ -7,8 +7,6 @@ package application;
  *	Extra Notes: Extends the Stage class and essentially makes it a JavaFX Stage (Which is a Window/JFrame/Whatever_U_Call_It)
  */
 
-import java.util.ArrayList;
-import java.util.Random;
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -20,6 +18,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 public class GameWorld extends Stage {
 	//GLOBAL VARIABLES
@@ -279,7 +280,8 @@ public class GameWorld extends Stage {
 		for(Enemy e1 : goblins)	{
 			for(Enemy e2 : goblins)	{
 				if(e1.getBoundary().contains(e2.getX(), e2.getY()))	{
-					//TODO: Blank code?
+					e1.setX(e2.getX() - 50);
+					e2.setX(e1.getX() + 50);
 				}	
 			}
 		}
