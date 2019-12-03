@@ -1,0 +1,30 @@
+Title: TBD
+
+Purpose: Entertainment
+
+Description of product, including an assessment of the originality of the project: 2D role-playing game from a top-down perspective. The originality of the project would be due to the story/characters. Other than that, it's difficult to make an original RPG (or game in general) in terms of truly unique gameplay.
+
+Audience/Stakeholders: The audience is whoever chooses to play the game. The stakeholders are the developers and potential players/customers.
+
+Preliminary group assignments: 1) Character Development, 2) World Development, 3) Graphics and Animations, 4) Interfaces, Input, Story, & Project Management
+
+Strengths, reliability, scalability, security of the proposed solution: Security is not an issue since the game will be standalone (no server access). Program should be reliable if the testing is thorough. Strengths of the program come from the strengths of the team members. Scalability: could theoretically be deployed to any device capable of running Java.
+
+Preliminary functional and non-functional requirements (large scale)
+Functional Requirements:
+ - Program takes input from user to process moves/actions
+ - Program displays player/world/NPCs/etc to user
+ - Initialize Players and Actors
+ Non-funcitonal Requirements:
+ - Aesthetically appealing
+ - Intuitive controls/navigation
+
+Scope: core functionality, prioritized nice-to-haves
+
+Preliminary development schedule:
+Week 1 - Overall project outline, assign roles, architect program, design model, individual development
+Week 2 - Individual development, check progress
+Week 3 - Individual development, bring pieces together, check progress
+Week 4 - Testing/working out bugs
+Week 5 - Finishing up/delivery
+

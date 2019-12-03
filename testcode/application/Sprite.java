@@ -1,10 +1,12 @@
 package application;
+
 /*
  *	AUTHORS: John Boyle, Colton Gerth, Levi Terry, Brendan Hagan
  *	CLASS: Sprite.java
  *	Purpose:
  *	Extra Notes:
  */
+
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;

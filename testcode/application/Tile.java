@@ -1,13 +1,14 @@
 package application;
 
-import javafx.geometry.Rectangle2D;
-
 /*
  *	AUTHORS: John Boyle, Colton Gerth, Levi Terry, Brendan Hagan
  *	CLASS: Tile.java
  *	Purpose: Creates a tile image
  *	Extra Notes: Extends the Sprite class to make our tile a sprite image
  */
+
+import javafx.geometry.Rectangle2D;
+
 public class Tile extends Sprite {
 	//PRIVATE Global Variables
 	private boolean visible;

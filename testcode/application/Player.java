@@ -1,16 +1,16 @@
 package application;
 
-import java.io.InputStream;
-
-import javafx.animation.AnimationTimer;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 /*
  *	AUTHORS: John Boyle, Colton Gerth, Levi Terry, Brendan Hagan
  *	CLASS: Player.java
  *	Purpose: Creates our user with basic characteristics and variables such as atk, def, hp and etc.
  *	Extra Notes: Extends the Sprite class to make our player a sprite image
  */
+
+import javafx.animation.AnimationTimer;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+
 public class Player extends Sprite {
 	int hp, atk, lvl, money;
 	//booleans flags to check enable certain game conditions

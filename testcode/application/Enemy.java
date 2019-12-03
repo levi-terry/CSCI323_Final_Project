@@ -1,19 +1,17 @@
 package application;
 
-import java.util.Random;
-
-import javafx.animation.AnimationTimer;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import javafx.scene.paint.Paint;
-import javafx.scene.text.Font;
-
 /*
  *	AUTHORS: John Boyle, Colton Gerth, Levi Terry, Brendan Hagan
  *	CLASS: Enemy.java
  *	Purpose: Creates the Enemy and renders to the screen, enemy will have attack and move functionality
  *	Extra Notes: Enemy extends the sprite class
  */
+
+import java.util.Random;
+import javafx.animation.AnimationTimer;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+
 public class Enemy extends Sprite {
 	private int health;
 	private int damage;

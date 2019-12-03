@@ -1,7 +1,14 @@
 package application;
+
+/*
+ *	AUTHORS: John Boyle, Colton Gerth, Levi Terry, Brendan Hagan
+ *	CLASS: GameWorld.java
+ *	Purpose: Creates our world by creating a frame with a canvas inside and drawing images to the canvas0.
+ *	Extra Notes: Extends the Stage class and essentially makes it a JavaFX Stage (Which is a Window/JFrame/Whatever_U_Call_It)
+ */
+
 import java.util.ArrayList;
 import java.util.Random;
-
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -14,12 +21,6 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-/*
- *	AUTHORS: John Boyle, Colton Gerth, Levi Terry, Brendan Hagan
- *	CLASS: GameWorld.java
- *	Purpose: Creates our world by creating a frame with a canvas inside and drawing images to the canvas0.
- *	Extra Notes: Extends the Stage class and essentially makes it a JavaFX Stage (Which is a Window/JFrame/Whatever_U_Call_It)
- */
 public class GameWorld extends Stage {
 	//GLOBAL VARIABLES
 	private Player player;
