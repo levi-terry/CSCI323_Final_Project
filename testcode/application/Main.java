@@ -32,16 +32,12 @@ public class Main extends Application {
 	
 	//Method inherited from Application: creates the main frame for the application
 	@Override
-	public void start(Stage primaryStage) 
-	{
+	public void start(Stage primaryStage) {
 		//Instead of creating our world in the main, we created a GameWorld class that extends a Stage so we may maintain a MVC and linearity
-		try 
-		{	
+		try{
 			primaryStage = new GameWorld();
-			
-		} 
-		catch(Exception e) 
-		{
+		}
+		catch(Exception e) {
 			e.printStackTrace();
 		}
 	}

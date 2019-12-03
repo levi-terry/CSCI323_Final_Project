@@ -9,8 +9,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-public class Sprite
-{
+public class Sprite {
 	//PRIVATE Global Variables
     private Image image;
     private double posX;
@@ -21,8 +20,7 @@ public class Sprite
     private double height;
     
     //CONSTRUCTOR - Instantiates the Sprite Image, and sets the width, height, and possible position of the sprite
-    public Sprite(String imageURL)
-    {
+    public Sprite(String imageURL) {
     	image = new Image(imageURL);
     	width = image.getWidth();
     	height = image.getHeight();
@@ -34,15 +32,13 @@ public class Sprite
     }
     
     //Method to update position of the sprite
-    public void updatePosition(double x, double y)
-    {
+    public void updatePosition(double x, double y) {
     	posX = x;
     	posY = y;
     }
 
     //Method to update position of the sprite relative to time.
-    public void update(double time)
-    {
+    public void update(double time) {
         posX = dx * time;
         posY = dy * time;
     }
@@ -110,14 +106,12 @@ public class Sprite
     	posX = x;
     }
     //sets the velocity of the sprite
-    public void setVelocity(double dx, double dy)
-    {
+    public void setVelocity(double dx, double dy) {
     	this.dx = dx;
     	this.dy = dy;
     }
     //moves the sprite by adding velocity to x and y coordinates
-    public void move()
-    {
+    public void move() {
     	posX += dx;
     	posY += dy;
     }

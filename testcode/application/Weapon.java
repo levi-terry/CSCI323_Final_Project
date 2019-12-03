@@ -6,14 +6,11 @@ package application;
  *	Extra Notes: Weapon extends the sprite class so it may be rendered as an image just like the player
  */
 
-public class Weapon extends Sprite
-{
+public class Weapon extends Sprite {
 	private int damage;
 	private int ammunition;
 	private String weaponName;
 	private int serialNum;
-
-
 
 	public Weapon(String imgURL) {
 		super(imgURL);

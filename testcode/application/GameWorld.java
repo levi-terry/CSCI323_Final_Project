@@ -20,8 +20,7 @@ import javafx.stage.Stage;
  *	Purpose: Creates our world by creating a frame with a canvas inside and drawing images to the canvas0.
  *	Extra Notes: Extends the Stage class and essentially makes it a JavaFX Stage (Which is a Window/JFrame/Whatever_U_Call_It)
  */
-public class GameWorld extends Stage
-{
+public class GameWorld extends Stage {
 	//GLOBAL VARIABLES
 	private Player player;
 	private Tile tiles[];
@@ -32,14 +31,12 @@ public class GameWorld extends Stage
 	private AnimationTimer gameloop;
 
 	//DEFAULT CONSTRUCTOR: Point of Execution
-	public GameWorld()
-	{
+	public GameWorld() {
 		renderGame();
 	}
 	
 	//Method to instantiate our sprites & world tiles
-	private void instantiateSprite()
-	{
+	private void instantiateSprite() {
 		//Instantiate player
 	    player = new Player();
 	    player.setVelocity(0, 0);
@@ -50,21 +47,18 @@ public class GameWorld extends Stage
 	  	instantiateTiles();
 	}
 	//Method to instantiate goblins, we must input a valid img location and also update the goblins starting positions
-	private void instantiateGoblins()
-	{
+	private void instantiateGoblins() {
 		//unit test
 		int t = 125;
 		goblins = new ArrayList<>();
-		for(int i = 0; i < 11; i++)
-		{
+		for(int i = 0; i < 11; i++) {
 			goblins.add(new Enemy("Images/EnemySprites/goblins/running/runLeft0.png"));
 			goblins.get(i).updatePosition(800, t*(i+1));
 		}
 	}
 	
 	//Creates our tiles (Not calling this method would result in a NullPointerException)
-	private void instantiateTiles()
-	{
+	private void instantiateTiles()	{
 		//Generates an int array of X and Y coords of where our tiles should be drawn
 		int[] tileXPos = {125,380,250,625,550,420,690,920,380,800};
 		int[] tileYPos = {125,900,250,625,550,420,690,920,900,900};
@@ -73,75 +67,58 @@ public class GameWorld extends Stage
 		
 		int platXPos[] = {10, 560, 320, 10, 820};
 		int platYPos[] = {920, 920, 720, 420, 500};
-		
-		
+
 		int[] coinPos = {900,700,500,400,600};
 		//Instantiates the tiles with our tile images (AS OF NOW)
 		tiles = new Tile[10];
-	  	for(int i = 0; i < 5; i++)
-	  	{
+	  	for(int i = 0; i < 5; i++) {
 	  		tiles[i] = new Tile("Images/platform256x128.png");
 	  		tiles[i].updatePosition(platXPos[i], platYPos[i]);
 	  	}
-	  	for(int i = 5; i < 10; i++)
-	  	{
+	  	for(int i = 5; i < 10; i++)	{
 	  		tiles[i] = new Tile("Images/TileSprites/LevelObjects/DungeonPlatform.png");
 	  		tiles[i].updatePosition(tileXPos[i], tileYPos[i]);
 	  	}
-	  	
-	  	
+
 	  	//instantiates coins
 	  	
 	  	coins = new Tile[5];
-	  	for(int i = 0; i < coins.length; i++)
-	  	{
+	  	for(int i = 0; i < coins.length; i++) {
 	  		coins[i] = new Tile("Images/Coin.png");
 	  		coins[i].updatePosition(coinPos[i], coinPos[i]);
 	  		coins[i].setReward(1);
 	  	}
-	  	
-	  	
 	}
 	//Renders our Tiles
-	private void renderTiles(GraphicsContext gc)
-	{
+	private void renderTiles(GraphicsContext gc) {
 		//iterate through tiles in the array and render
-		for(Tile t : tiles)
-		{
+		for(Tile t : tiles)	{
 			//We have this conditional for now for safety but it's not required
-			if(t.isVisible())
-			{
+			if(t.isVisible()) {
 				t.render(gc);
 			}
 		}
 		//Do the same for coins
-		for(Tile c : coins)
-		{
-			if(c.isVisible())
-			{
+		for(Tile c : coins)	{
+			if(c.isVisible()) {
 				c.render(gc);
 			}
 		}
-		
-		
+
 	}
 	//This method is called continuously throughout our game loop to continuously render our objects to the screen
-	private void updateSprites(GraphicsContext gc, long now)
-	{
+	private void updateSprites(GraphicsContext gc, long now) {
 		drawBackground(gc);
 		
 		//Check is player is alive, then update player
-		if(player.alive)
-		{
+		if(player.alive) {
 			player.move();
 			player.render(gc);
 		}
 		
 		//and enemy sprites
-		for(Enemy e : goblins)
-		{
-			if(e.isAlive())
-			{
+		for(Enemy e : goblins) {
+			if(e.isAlive()) {
 				e.update(player, gc, now);
 			}
 		}
@@ -151,8 +128,7 @@ public class GameWorld extends Stage
 	}
 	
 	//This is GameWorlds main execution point. Our game loop is handled in this method and our sprites are instantiates and updated in this method as well
-	private void renderGame()
-	{
+	private void renderGame() {
 		instantiateSprite();
 		
 		//These 6 lines of code instantiate our games frame
@@ -175,56 +151,44 @@ public class GameWorld extends Stage
 		
 		//INSTANTIATES KEY LISTENER: Key Listener events are called and handled in the game loop
 		scene.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
-
 			@Override
 			public void handle(KeyEvent event) {
 				// TODO Auto-generated method stub
 				String code = event.getCode().toString();
-				System.out.println(code + " Pressed");
-                if(!keyinput.contains(code))
-                {
+				System.out.println(code + " Pressed"); //TODO: Remove test line
+                if(!keyinput.contains(code)) {
                 	keyinput.add(code);
                 }
 			}
 		});
 	    scene.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
-
-			@Override
 			public void handle(KeyEvent event) {
 				// TODO Auto-generated method stub
 				String code = event.getCode().toString();
-				System.out.println(code + " Released");
+				System.out.println(code + " Released"); //TODO: Remove test line
 				keyinput.remove(code);
 			}
 		});
 	   
 	    
 	    //**GAME LOOP**: AnimationTimer() is our main game loop, it updates our objects in the game real time
-	    if(!paused || !player.isAlive())
-		{
+	    if(!paused || !player.isAlive()) {
 	    	gameloop = gameLoop(gc);
 	    	gameloop.start();
 	    }
-	    
-
 	    show();
 	}
-	private AnimationTimer gameLoop(GraphicsContext gc)
-	{
+	private AnimationTimer gameLoop(GraphicsContext gc) {
 		return new AnimationTimer() {
-			@Override
 			public void handle(long now) {
-				
 				//These 4 Method calls are to be called continuously while the game is running
 				keyListener(keyinput, gc, now);
 				
 				//check if game is paused (Work in progress)
-				if(paused)
-			    {
+				if(paused) {
 					drawPause(gc);
 			    }
-				else
-				{
+				else {
 					gravity(gc);
 					updateSprites(gc, now);
 				}
@@ -232,69 +196,56 @@ public class GameWorld extends Stage
 		};
 	}
 	//this method implements gravity by setting the velocity of the sprites
-	public void gravity(GraphicsContext gc)
-	{
+	public void gravity(GraphicsContext gc)	{
 		player.implementGravity(gc);
-		for(Enemy e : goblins)
-		{
+		for(Enemy e : goblins) {
 			e.setVelocity(e.getDX(), 10);
 			//this method allows smoother rendering
 			e.setY(e.getY() + 5);
 		}
 	}
 	//This method handles our KeyListener by taking in Keyboard input as a string and the current game time to move the player with the movePlayer() method
-	private void keyListener(ArrayList<String> keyinput, GraphicsContext gc, long now)
-	{
-		if(keyinput.contains("DOWN"))
-		{
+	private void keyListener(ArrayList<String> keyinput, GraphicsContext gc, long now) {
+		if(keyinput.contains("DOWN")) {
 			player.movePlayer(gc, "DOWN", now);
 		}
-		if(keyinput.contains("UP"))
-		{
+		if(keyinput.contains("UP")) {
 			player.movePlayer(gc, "UP", now);
-			if(player.getY() < player.getY()-100)
-			{
+			if(player.getY() < player.getY()-100) {
 				player.setVelocity(player.getDX(), -10);
 				player.setY(player.getY() + 20);
 			}
 		}
-		if(keyinput.contains("LEFT"))
-		{
+		if(keyinput.contains("LEFT")) {
 			player.movePlayer(gc, "LEFT", now);
 		}
-		if(keyinput.contains("RIGHT"))
-		{
+		if(keyinput.contains("RIGHT")) {
 			player.movePlayer(gc, "RIGHT", now);
 		}
 		player.setVelocity(0,0);
-		if(keyinput.isEmpty())
-		{
+		if(keyinput.isEmpty()) {
 			player.movePlayer(gc, "STOP", now);
 		}
-		
-		if(keyinput.contains("P"))
-		{
+		if(keyinput.contains("P")) {
 			pause();
 		}
 	}
 	
 	//method to pause and unpause the game; when the method is called, it changes the boolean, currently a bug exists where the method is called twice due to the keylistener calling the method twice
-	private void pause()
-	{
-		if(paused)
+	private void pause() {
+		if(paused) {
 			paused = false;
-		else
+		}
+		else {
 			paused = true;
+		}
 	}
 	//This is our check collision method. We iterate through the tiles
-	private void checkCollisions(GraphicsContext gc)
-	{
+	private void checkCollisions(GraphicsContext gc) {
 		//check for platform collision
-		for(Tile t : tiles)
-		{
-			if(player.intersectsEdge(t))
-			{
-				System.out.println("PLAYER COLLIDING WITH TILE");
+		for(Tile t : tiles)	{
+			if(player.intersectsEdge(t)) {
+				System.out.println("PLAYER COLLIDING WITH TILE"); // TODO: Remove test line
 				player.setY(t.getY() - 55);
 				//This flag is used to make a smoother jump when the player jumps
 				player.setColliding(true);
@@ -304,20 +255,16 @@ public class GameWorld extends Stage
 		player.setColliding(false);
 		
 		//check for coin collision
-		for(Tile c : coins)
-		{
-			if(player.intersects(c))
-			{
-				System.out.println("You found a coin and this is a test... coin now going to sleep");
+		for(Tile c : coins) {
+			if(player.intersects(c)) {
+				System.out.println("You found a coin and this is a test... coin now going to sleep"); // TODO: Remove test line
 				player.deposit(c.getReward());
 				c.setVisible(false);
-				
 			}
 		}
 		
 		//check enemy to tile collision
-		for(Enemy e : goblins)
-		{
+		for(Enemy e : goblins) {
 			for(Tile t : tiles)
 			{
 				if(t.getEdgeBoundary().intersects(e.getBoundary()))
@@ -326,47 +273,39 @@ public class GameWorld extends Stage
 				}
 			}
 		}
+
 		//Goblin to goblin to ensure the images don't overlap. Currently a work in progress
-		for(Enemy e1 : goblins)
-		{
-			for(Enemy e2 : goblins)
-			{
-				if(e1.getBoundary().contains(e2.getX(), e2.getY()))
-				{
-					
+		for(Enemy e1 : goblins)	{
+			for(Enemy e2 : goblins)	{
+				if(e1.getBoundary().contains(e2.getX(), e2.getY()))	{
+					//TODO: Blank code?
 				}	
 			}
 		}
 		
 		//check player out of bounds
-		if(player.getX() > 1280)
-		{
+		if(player.getX() > 1280) {
 			player.setX(1);
 		}
-		if(player.getY() > 960)
-		{
+		if(player.getY() > 960)	{
 			player.setY(1);
 		}
 	}
 	
 	//Draws the Game Start Screen has only two options for now; start & quit
-	private void drawSplashScreen(GraphicsContext gc)
-	{
+	private void drawSplashScreen(GraphicsContext gc) {
 		
 	}
 	//Draws the Game Over Screen
-	private void drawGameOver(GraphicsContext gc)
-	{
+	private void drawGameOver(GraphicsContext gc) {
 		//DRAW GAME OVER SCREEN HERE gc.drawImage or gc.fillText
 	}
 	//draw pause
-	private void drawPause(GraphicsContext gc)
-	{
+	private void drawPause(GraphicsContext gc) {
 		gc.drawImage(new Image("Images/pausemenu.png"), 0, 0);
 	}
 	//Draw the player stats gui
-	private void drawStats(GraphicsContext gc)
-	{
+	private void drawStats(GraphicsContext gc) {
 		gc.drawImage(new Image("Images/invstats.png"), 0, 0);
 		gc.fillText("Coins: " + player.getMoney(), 0, 30);
 		gc.fillText("HP: " + player.getHp(), 0, 60);
@@ -374,8 +313,7 @@ public class GameWorld extends Stage
 		gc.fillText("ATK: " + player.getAtk(), 0, 130);
 	}
 	//METHOD drawBackground() is called to draw our background image before drawing our sprite and tile objects on top
-	private void drawBackground(GraphicsContext gc)
-	{
+	private void drawBackground(GraphicsContext gc)	{
 		Image background = new Image("Images/TileSprites/Background.png");
 		gc.drawImage(background, 0, 0);
 		drawStats(gc);
@@ -394,6 +332,4 @@ public class GameWorld extends Stage
 		
 	}
 		
-} 
-	
-
+}

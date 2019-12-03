@@ -14,8 +14,7 @@ import javafx.scene.text.Font;
  *	Purpose: Creates the Enemy and renders to the screen, enemy will have attack and move functionality
  *	Extra Notes: Enemy extends the sprite class
  */
-public class Enemy extends Sprite
-{
+public class Enemy extends Sprite {
 	private int health;
 	private int damage;
 	private Weapon weapon;
@@ -23,14 +22,12 @@ public class Enemy extends Sprite
 	private boolean alive;
 	private AnimationTimer animateEnemy;
 	
-	public Enemy(String imgURL)
-	{
+	public Enemy(String imgURL)	{
 		super(imgURL);
 		instantiateEnemy();
 	}
 	//Method to instantiate the enemy; sets random stats and initializes variables and animations
-	private void instantiateEnemy()
-	{
+	private void instantiateEnemy()	{
 		Random randomStat = new Random();
 		health = randomStat.nextInt(50) + 10;
 		damage = randomStat.nextInt(3) + 1;
@@ -39,8 +36,7 @@ public class Enemy extends Sprite
 		instantiateAnimation();
 	}
 	//Instantiates the animations for the goblin.
-	private void instantiateAnimation()
-	{
+	private void instantiateAnimation()	{
 		//7 Image arrays are used and will be iterated through individually based on character state (such as walking/attacking etc.)
 		walkRight = new Image[5];
 		walkLeft = new Image[5];
@@ -54,8 +50,7 @@ public class Enemy extends Sprite
 		String imgLoc = "Images/EnemySprites/goblins/";
 		
 		//for loop to create the images in the arrays
-		for(int i = 0; i < 5; i++)
-		{
+		for(int i = 0; i < 5; i++) {
 			walkRight[i] = new Image(imgLoc + "running/runRight" + i + ".png");
 			walkLeft[i] = new Image(imgLoc + "running/runLeft" + i + ".png");
 			attackLeft[i] = new Image(imgLoc + "attack/attackLeft" + i + ".png");
@@ -70,13 +65,11 @@ public class Enemy extends Sprite
 	}
 	
 	//method to update the enemy animation and position based off player location and current game time
-	public void update(Player p, GraphicsContext gc, long now)
-	{
+	public void update(Player p, GraphicsContext gc, long now) {
 		if(p.getX() < getX() && (getX() - p.getX()) < 200)
 		{
 			animateEnemy = itrFrames(walkLeft);
-			if(p.intersects(this))
-			{
+			if(p.intersects(this)) {
 				animateEnemy = itrFrames(attackLeft);
 				p.setHp(p.getHp() - getDamage());
 				System.out.println("OUCH Damage Dealt: " + getDamage());
@@ -86,17 +79,14 @@ public class Enemy extends Sprite
 			move();
 			render(gc);
 		}
-		else if(p.getX() == getX())
-		{
+		else if(p.getX() == getX())	{
 			animateEnemy = itrFrames(attackLeft);
 			animateEnemy.handle(now);
 			render(gc);
 		}
-		else if(p.getX() > getX() && (p.getX() - getX()) < 200)
-		{
+		else if(p.getX() > getX() && (p.getX() - getX()) < 200)	{
 			animateEnemy = itrFrames(walkRight);
-			if(p.intersects(this))
-			{
+			if(p.intersects(this)) {
 				animateEnemy = itrFrames(attackRight);
 				p.setHp(p.getHp() - getDamage());
 			}
@@ -105,8 +95,7 @@ public class Enemy extends Sprite
 			move();
 			render(gc);
 		}
-		else
-		{
+		else {
 			animateEnemy = itrFrames(idle);
 			animateEnemy.handle(3000);
 			render(gc);
@@ -116,23 +105,18 @@ public class Enemy extends Sprite
 		
 	}
 	//Method to return the next image in the image array
-	public Image getFrame(Image[] frames)
-    {
+	public Image getFrame(Image[] frames) {
         return frames[getNextIndex(frames)];
     }
     //Method to find and return the next index to while iterating through Image array
-	private int getNextIndex(Image[] g)
-	{
+	private int getNextIndex(Image[] g)	{
 		int c = 0;
-		for(int i = 0; i < g.length; i++)
-		{
-			if(g[i].equals(getImage()))
-			{
+		for(int i = 0; i < g.length; i++) {
+			if(g[i].equals(getImage()))	{
 				//TEST if Player is using image, then return next index
-				System.out.println("Image match found at index: " + i);
+				System.out.println("Image match found at index: " + i); //TODO: Remove test line
 				c = i + 1;
-				if(c > 4)
-				{
+				if(c > 4) {
 					c = 0;
 				}
 			}
@@ -140,15 +124,13 @@ public class Enemy extends Sprite
 		return c;
 	}
 	//Creates an AnimationTimer to iterate through our Image Array
-	private AnimationTimer itrFrames(Image[] f)
-	{
+	private AnimationTimer itrFrames(Image[] f)	{
 		AnimationTimer t;
 		t = new AnimationTimer() {
 			@Override
 			public void handle(long now) {
 					setFrame(getFrame(f));
 			}
-			
 		};
 		return t;
 	}
@@ -197,6 +179,4 @@ public class Enemy extends Sprite
 	{
 		this.damage = damage;
 	}
-	
-	
 }
