@@ -16,13 +16,13 @@ public class Player extends Sprite {
 	//booleans flags to check enable certain game conditions
 	boolean alive, colliding;
 	Weapon weapon;
-	
+
 	//Image Arrays are used for Player Animation
 	Image[] walkRight, walkLeft, jump, attack, hurt, die;
-	
+
 	//Player Default SuperConstructor
 	public Player()	{
-		super("Images/Untitled_Artwork.png");
+		super("Images/WalkRightAnimation/Standing.png");
 		initPlayer();
 	}
 	//initializes the player
@@ -33,6 +33,8 @@ public class Player extends Sprite {
 		money = 0;
 		alive = true;
 		colliding = false;
+		weapon = new Weapon("Images/Shotgun.png");
+		weapon.updatePosition(getX()+150, getY());
 		initAnimationFrames();
 	}
 	//Initializes the players Image Arrays for player animation
@@ -71,7 +73,7 @@ public class Player extends Sprite {
 		}
 		return tempLoc;
 	}
-	
+
 	// WORK IN PROGRESS -- CANNOT COMPLETE FULL IMAGE LOCATION ARRAY UNTIL ALL FRAMES ARE DRAWN AND LOADED
 	private String[] getImgLoc() {
 		String loc[] = new String[36];
@@ -86,18 +88,20 @@ public class Player extends Sprite {
 		}
 		return loc;
 	}
-	
+
 	//Method to return the next image in the image array
 	public Image getFrame(Image[] frames) {
         return frames[getNextIndex(frames)];
     }
-    //Method to find and return the next index to while iterating through Image array
-	private int getNextIndex(Image[] g) {
+
+	//Method to find and return the next index to while iterating through Image array
+	private int getNextIndex(Image[] g)
+	{
 		int c = 0;
 		for(int i = 0; i < g.length; i++) {
 			if(g[i].equals(getImage()))	{
 				//TEST if Player is using image, then return next index
-				System.out.println("Image match found at index: " + i);
+				//System.out.println("Image match found at index: " + i);
 				c = i + 1;
 				if(c > 7) {
 					c = 0;
@@ -112,9 +116,10 @@ public class Player extends Sprite {
 		t = new AnimationTimer() {
 			@Override
 			public void handle(long now) {
-					//Every game ms the frame is set to the next frame in the animation
-					setFrame(getFrame(f));			
+				//Every game ms the frame is set to the next frame in the animation
+				setFrame(getFrame(f));			
 			}
+
 		};
 		return t;
 	}
@@ -129,21 +134,30 @@ public class Player extends Sprite {
 		//This is where we set which frame animations to use. We create an AnimationTimer and will call that timer to iterate
 		//	through the frames with the t.handle() method when an action is called (by default set to walkRight)
 		AnimationTimer t = itrFrames(walkRight);
-		
+
 		//This is our player listener, where we take a keycode and move our player based off the key
 		//We first start the animation timer, set the velocity of which way we want to move, then render the player
-		if(way == "UP") {
+
+		if(way == "UP")
+		{
 			//**THIS COMMENTED STUB IS USED TO SET WHICH IMAGE ARRAY TO USE FOR ANIMATIONTIMER
 			//t = itrFrames(jump);
 			t.handle(now);
-			
+			setVelocity(0, 4);
+			/*timer ++
+			if (timer < 5) {
+				velocity = Math.sqrt(velocity);
+			} else {
+				velocity = velocity*velocity;
+				velocity = -velocity;
+			}*/
 			//attempt at a proper jump animation
-			if(getY() < (getY() - getHeight()))
+			if(getY() >= (getY() + getHeight()))
 				render(gc);
 			else
 				jump();
-				move();
-				render(gc);
+			move();
+			render(gc);
 		}
 		else if(way == "DOWN") {
 			t.handle(now);
@@ -151,6 +165,7 @@ public class Player extends Sprite {
 			move();
 			System.out.println("PLAYER MOVING");
 			render(gc);
+			updateWeapon(gc);
 		}
 		else if(way == "RIGHT")	{
 			t.handle(now);
@@ -168,12 +183,39 @@ public class Player extends Sprite {
 		else {
 			//TODO: blank code?
 		}
+		
+		
+	}
+	public void updateWeapon(GraphicsContext gc)
+	{
+		weapon.render(gc);
+		weapon.updatePosition(getX()+25, getY() + 5);
+	}
+	
+	public void fireWeapon(GraphicsContext gc, long now)
+	{
+		
+		AnimationTimer ammoTimer = new AnimationTimer() {
+			
+			@Override
+			public void handle(long now) {
+				// TODO Auto-generated method stub
+				if(weapon.getAmmunition() > 0)
+				{
+					System.out.println("Weapon firing");
+					weapon.fire(5, getX(), getY(), gc);
+					System.out.println("Weapon fired");
+				}
+			}
+		};
+		ammoTimer.handle(now);
 	}
 	//Attempt to create a player jump. W.I.P
-	public void jump() {
-			System.out.println("Player jumping");
-			setVelocity(getDX(), -5);
-			setY(getY() - (getHeight()/4));
+	public void jump()
+	{
+		System.out.println("Player jumping");
+		setVelocity(getDX(), -5);
+		setY(getY() - (getHeight()/4));
 	}
 	//Method is used to only get the top quarter of a Tile 2D dimension so the player has a more accurate movement (Any questions I can explain)
 	public boolean intersectsEdge(Tile t) {
@@ -184,8 +226,8 @@ public class Player extends Sprite {
 			return false;
 		}
 	}
-	
-	
+
+
 	//Player Class Getters & Setters: Very Much Required.
 	public void deposit(int c) {
 		money += c;

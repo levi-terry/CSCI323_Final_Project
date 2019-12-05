@@ -61,7 +61,12 @@ public class Enemy extends Sprite {
 		//animateEnemy is an AnimationTimer that is used to iterate through the frames. We set the timer to iterate through the idle frames by default
 		animateEnemy = itrFrames(idle);
 	}
-	
+	public void die(GraphicsContext gc, long now)
+	{
+		animateEnemy = itrDie();
+		animateEnemy.handle(now);
+		render(gc);
+	}
 	//method to update the enemy animation and position based off player location and current game time
 	public void update(Player p, GraphicsContext gc, long now) {
 		if(p.getX() < getX() && (getX() - p.getX()) < 200)
@@ -112,7 +117,7 @@ public class Enemy extends Sprite {
 		for(int i = 0; i < g.length; i++) {
 			if(g[i].equals(getImage()))	{
 				//TEST if Player is using image, then return next index
-				System.out.println("Image match found at index: " + i); //TODO: Remove test line
+				//System.out.println("Image match found at index: " + i); //TODO: Remove test line
 				c = i + 1;
 				if(c > 4) {
 					c = 0;
@@ -132,6 +137,27 @@ public class Enemy extends Sprite {
 		};
 		return t;
 	}
+	public AnimationTimer itrDie()
+	{
+		AnimationTimer t;
+		t = new AnimationTimer() {
+			int i = 0;
+			private long lastUpdate = 0 ;
+			@Override
+			public void handle(long now) {
+					if(i < 5 && now - lastUpdate >= 1000_000_000)
+					{
+						setFrame(die[i++]);
+					}
+					else
+					{
+						alive(false);
+					}
+			}
+		};
+		return t;
+	}
+	
 	// Getters
 	public Weapon getWeapon() 
 	{
