@@ -32,7 +32,7 @@ public class Weapon extends Sprite {
 			magazine.add(new Ammo("Images/Missle.png"));
 		}
 		serialNum = r.nextInt(100000) + 10000;
-		System.out.println("Weapon instantiated");
+		System.out.println("Weapon instantiated"); // TODO: Remove test line
 	}
 
 	public void fire(double dx, double x, double y, GraphicsContext gc)
@@ -43,7 +43,7 @@ public class Weapon extends Sprite {
 			magazine.get(ammunition-1).setY(y);
 			magazine.get(ammunition-1).setVelocity(dx, 0);
 			magazine.get(ammunition-1).visible = true;
-			System.out.println("Ammo shot");
+			System.out.println("Ammo shot"); // TODO: Remove test line
 			
 		}
 	}
@@ -68,21 +68,15 @@ public class Weapon extends Sprite {
 	public void setAmmunition(int Ammo) {
 		this.ammunition = Ammo;
 	}
-	public ArrayList<Ammo> getAmmo()
-	{
+	public ArrayList<Ammo> getAmmo() {
 		return magazine;
 	}
 }
 
-class Ammo extends Sprite
-{
+class Ammo extends Sprite {
 	boolean visible;
 	public Ammo(String imageURL) {
 		super(imageURL);
 		visible = true;
-		
-		// TODO Auto-generated constructor stub
 	}
-	
-	
 }

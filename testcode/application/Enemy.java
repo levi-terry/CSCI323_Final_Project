@@ -61,16 +61,14 @@ public class Enemy extends Sprite {
 		//animateEnemy is an AnimationTimer that is used to iterate through the frames. We set the timer to iterate through the idle frames by default
 		animateEnemy = itrFrames(idle);
 	}
-	public void die(GraphicsContext gc, long now)
-	{
+	public void die(GraphicsContext gc, long now) {
 		animateEnemy = itrDie();
 		animateEnemy.handle(now);
 		render(gc);
 	}
 	//method to update the enemy animation and position based off player location and current game time
 	public void update(Player p, GraphicsContext gc, long now) {
-		if(p.getX() < getX() && (getX() - p.getX()) < 200)
-		{
+		if(p.getX() < getX() && (getX() - p.getX()) < 200) {
 			animateEnemy = itrFrames(walkLeft);
 			if(p.intersects(this)) {
 				animateEnemy = itrFrames(attackLeft);
@@ -126,6 +124,7 @@ public class Enemy extends Sprite {
 		}
 		return c;
 	}
+
 	//Creates an AnimationTimer to iterate through our Image Array
 	private AnimationTimer itrFrames(Image[] f)	{
 		AnimationTimer t;
@@ -137,20 +136,18 @@ public class Enemy extends Sprite {
 		};
 		return t;
 	}
-	public AnimationTimer itrDie()
-	{
+
+	public AnimationTimer itrDie() {
 		AnimationTimer t;
 		t = new AnimationTimer() {
 			int i = 0;
 			private long lastUpdate = 0 ;
 			@Override
 			public void handle(long now) {
-					if(i < 5 && now - lastUpdate >= 1000_000_000)
-					{
+					if(i < 5 && now - lastUpdate >= 1000_000_000) {
 						setFrame(die[i++]);
 					}
-					else
-					{
+					else {
 						alive(false);
 					}
 			}
@@ -159,16 +156,13 @@ public class Enemy extends Sprite {
 	}
 	
 	// Getters
-	public Weapon getWeapon() 
-	{
+	public Weapon getWeapon() {
 		return weapon;
 	}
-	public boolean isAlive()
-	{
+	public boolean isAlive() {
 		return alive;
 	}
-	public void alive(boolean alive)
-	{
+	public void alive(boolean alive) {
 		this.alive = alive;
 	}
 	public int getHealth() {
@@ -199,8 +193,7 @@ public class Enemy extends Sprite {
 	public void setHealth(int health) {
 		this.health = health;
 	}
-	public void setDamage(int damage)
-	{
+	public void setDamage(int damage) {
 		this.damage = damage;
 	}
 }

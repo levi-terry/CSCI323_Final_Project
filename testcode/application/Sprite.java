@@ -67,13 +67,11 @@ public class Sprite {
 		return height;
 	}
 	//returns sprite image
-	public Image getImage()
-	{
+	public Image getImage() {
 		return image;
 	}
 	//sets the sprite image (used for animation)
-	public void setFrame(Image img)
-	{
+	public void setFrame(Image img) {
 		image = img;
 	}
 	//Gets a 2D boundary for our image used for collision detection
@@ -83,28 +81,23 @@ public class Sprite {
     }
  
     //Returns a boolean if our sprite intersects another sprite
-    public boolean intersects(Sprite s)
-    {
+    public boolean intersects(Sprite s) {
         return s.getBoundary().intersects(this.getBoundary());
     }
     //return dx velocity
-    public double getDX()
-    {
+    public double getDX() {
     	return dx;
     }
     //returns dy velocity
-    public double getDY()
-    {
+    public double getDY() {
     	return dy;
     }
     //sets the Y coordinate
-    public void setY(double y)
-    {
+    public void setY(double y) {
     	posY = y;
     }
     //sets the X coordinate
-    public void setX(double x)
-    {
+    public void setX(double x) {
     	posX = x;
     }
     //sets the velocity of the sprite

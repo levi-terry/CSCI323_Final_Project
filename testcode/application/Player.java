@@ -76,8 +76,8 @@ public class Player extends Sprite {
 
 	// WORK IN PROGRESS -- CANNOT COMPLETE FULL IMAGE LOCATION ARRAY UNTIL ALL FRAMES ARE DRAWN AND LOADED
 	private String[] getImgLoc() {
-		String loc[] = new String[36];
-		String action[] = {"idle", "walk", "run", "jump", "attack", "die", "hurt"};
+		String[] loc = new String[36];
+		String[] action = {"idle", "walk", "run", "jump", "attack", "die", "hurt"};
 		String png = ".png";
 		int l = 0;
 		for(int i = 0; i < 7; i++) {
@@ -95,8 +95,7 @@ public class Player extends Sprite {
     }
 
 	//Method to find and return the next index to while iterating through Image array
-	private int getNextIndex(Image[] g)
-	{
+	private int getNextIndex(Image[] g) {
 		int c = 0;
 		for(int i = 0; i < g.length; i++) {
 			if(g[i].equals(getImage()))	{
@@ -138,8 +137,7 @@ public class Player extends Sprite {
 		//This is our player listener, where we take a keycode and move our player based off the key
 		//We first start the animation timer, set the velocity of which way we want to move, then render the player
 
-		if(way == "UP")
-		{
+		if(way == "UP") {
 			//**THIS COMMENTED STUB IS USED TO SET WHICH IMAGE ARRAY TO USE FOR ANIMATIONTIMER
 			//t = itrFrames(jump);
 			t.handle(now);
@@ -152,10 +150,12 @@ public class Player extends Sprite {
 				velocity = -velocity;
 			}*/
 			//attempt at a proper jump animation
-			if(getY() >= (getY() + getHeight()))
+			if(getY() >= (getY() + getHeight())) {
 				render(gc);
-			else
+			}
+			else {
 				jump();
+			}
 			move();
 			render(gc);
 		}
@@ -186,22 +186,17 @@ public class Player extends Sprite {
 		
 		
 	}
-	public void updateWeapon(GraphicsContext gc)
-	{
+	public void updateWeapon(GraphicsContext gc) {
 		weapon.render(gc);
 		weapon.updatePosition(getX()+25, getY() + 5);
 	}
 	
-	public void fireWeapon(GraphicsContext gc, long now)
-	{
-		
+	public void fireWeapon(GraphicsContext gc, long now) {
 		AnimationTimer ammoTimer = new AnimationTimer() {
 			
 			@Override
 			public void handle(long now) {
-				// TODO Auto-generated method stub
-				if(weapon.getAmmunition() > 0)
-				{
+				if(weapon.getAmmunition() > 0) {
 					System.out.println("Weapon firing");
 					weapon.fire(5, getX(), getY(), gc);
 					System.out.println("Weapon fired");
@@ -211,8 +206,7 @@ public class Player extends Sprite {
 		ammoTimer.handle(now);
 	}
 	//Attempt to create a player jump. W.I.P
-	public void jump()
-	{
+	public void jump() {
 		System.out.println("Player jumping");
 		setVelocity(getDX(), -5);
 		setY(getY() - (getHeight()/4));
@@ -232,7 +226,7 @@ public class Player extends Sprite {
 	public void deposit(int c) {
 		money += c;
 	}
-	public void withdrawl(int c) {
+	public void withdraw(int c) {
 		money -= c;
 	}
 	public int getMoney() {

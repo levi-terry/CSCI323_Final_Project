@@ -25,8 +25,8 @@ import java.util.Random;
 public class GameWorld extends Stage {
 	//GLOBAL VARIABLES
 	private Player player;
-	private Tile tiles[];
-	private Tile coins[];
+	private Tile[] tiles;
+	private Tile[] coins;
 	private ArrayList<String> keyinput = new ArrayList<>();
 	private ArrayList<Enemy> goblins;
 	private boolean paused = false;
@@ -64,11 +64,11 @@ public class GameWorld extends Stage {
 		//Generates an int array of X and Y coords of where our tiles should be drawn
 		int[] tileXPos = {125,380,250,625,550,420,690,920,380,800};
 		int[] tileYPos = {125,900,250,625,550,420,690,920,900,900};
-		String platforms[] = {"platform1.png", "platformdoor.png", "platformx256.png", "platform512x128.png"};
+		String[] platforms = {"platform1.png", "platformdoor.png", "platformx256.png", "platform512x128.png"};
 		Random r = new Random();
 
-		int platXPos[] = {10, 560, 320, 10, 820};
-		int platYPos[] = {920, 920, 720, 420, 500};
+		int[] platXPos = {10, 560, 320, 10, 820};
+		int[] platYPos = {920, 920, 720, 420, 500};
 
 		int[] coinPos = {900,700,500,400,600};
 		//Instantiates the tiles with our tile images (AS OF NOW)
@@ -170,7 +170,6 @@ public class GameWorld extends Stage {
 		scene.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent event) {
-				// TODO Auto-generated method stub
 				String code = event.getCode().toString();
 				System.out.println(code + " Pressed"); //TODO: Remove test line
 				if(!keyinput.contains(code)) {
@@ -180,7 +179,6 @@ public class GameWorld extends Stage {
 		});
 		scene.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent event) {
-				// TODO Auto-generated method stub
 				String code = event.getCode().toString();
 				System.out.println(code + " Released"); //TODO: Remove test line
 				keyinput.remove(code);
@@ -373,13 +371,10 @@ public class GameWorld extends Stage {
 
 		//method renderTiles() is appended to this method because this method is called continuously in the game loop
 		//WITHOUT renderTiles() our background would be drawn over our tiles.
-		renderTiles(gc);	
+		renderTiles(gc);
 
 		//This method sets our text font and font size
 		gc.setFont(new Font(18));
 		gc.setFill(Paint.valueOf("white"));
-
-
 	}
-
 }
