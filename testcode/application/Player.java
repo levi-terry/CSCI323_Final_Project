@@ -8,21 +8,25 @@ package application;
  */
 
 import javafx.animation.AnimationTimer;
+import javafx.animation.Interpolator;
+import javafx.animation.TranslateTransition;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.util.Duration;
 
 public class Player extends Sprite {
 	int hp, atk, lvl, money;
 	//booleans flags to check enable certain game conditions
-	boolean alive, colliding;
-	Weapon weapon;
+	boolean alive, colliding, lookingRight;
+	Weapon weapon[];
+	int ammo = 0;
 
 	//Image Arrays are used for Player Animation
 	Image[] walkRight, walkLeft, jump, attack, hurt, die;
 
 	//Player Default SuperConstructor
 	public Player()	{
-		super("Images/WalkRightAnimation/Standing.png");
+		super("Images/playeranimation/WalkRightAnimation/Standing.png");
 		initPlayer();
 	}
 	//initializes the player
@@ -33,13 +37,20 @@ public class Player extends Sprite {
 		money = 0;
 		alive = true;
 		colliding = false;
-		weapon = new Weapon("Images/Shotgun.png");
-		weapon.updatePosition(getX()+150, getY());
+		ammo = 50;
+		lookingRight = true;
+		//instantiates weapon arms - 
+		weapon = new Weapon[6];
 		initAnimationFrames();
+		weapon[5].setOwned(true);
+		weapon[4].setOwned(true);
+		weapon[5].updatePosition(getX()+150, getY());
 	}
 	//Initializes the players Image Arrays for player animation
 	private void initAnimationFrames() {
 		String[] imgLoc = getImgLocTemp();
+		String[] leftImgLoc = getLeftAnimationImgLoc();
+		String[] weaponArms = getWeaponsImgLoc();
 		walkLeft = new Image[8];
 		walkRight = new Image[8];
 		jump = new Image[8];
@@ -47,7 +58,7 @@ public class Player extends Sprite {
 		die = new Image[8];
 		hurt = new Image[8];
 		for(int i = 0; i < 8; i++) {
-			walkLeft[i] = new Image(imgLoc[i]);
+			walkLeft[i] = new Image(leftImgLoc[i]);
 		}
 		for(int i = 0; i < 8; i++) {
 			walkRight[i] = new Image(imgLoc[i]);
@@ -55,8 +66,9 @@ public class Player extends Sprite {
 		for(int i = 0; i < 8; i++) {
 			jump[i] = new Image(imgLoc[i]);
 		}
-		for(int i = 0; i < 8; i++) {
-			attack[i] = new Image(imgLoc[i]);
+		for(int i = 0; i < 6; i++) {
+			weapon[i] = new Weapon(weaponArms[i], i);
+			attack[i] = new Image(weaponArms[i]);
 		}
 		for(int i = 0; i < 8; i++) {
 			die[i] = new Image(imgLoc[i]);
@@ -73,16 +85,34 @@ public class Player extends Sprite {
 		}
 		return tempLoc;
 	}
-
+	private String[] getWeaponsImgLoc()
+	{
+		String locs[] = {"MinigunArmsLeft", "MinigunArmsRight", "RifleArmsLeft", "RifleArmsRight", "ShotgunArmsLeft", "ShotgunArmsRight"};
+		String[] tempLoc = new String[6];
+		for(int i = 0; i < tempLoc.length; i++) {
+			tempLoc[i] = "Images/playeranimation/WeaponArms/" + locs[i] + ".png";
+		}
+		return tempLoc;
+	}
+	private String[] getLeftAnimationImgLoc()
+	{
+		String[] tempLoc = new String[8];
+		{
+			for(int i = 0; i < tempLoc.length; i++) {
+				tempLoc[i] = "Images/playeranimation/WalkLeftAnimation/WalkLeft" + (i+1) + ".png";
+			}
+			return tempLoc;
+		}
+	}
 	// WORK IN PROGRESS -- CANNOT COMPLETE FULL IMAGE LOCATION ARRAY UNTIL ALL FRAMES ARE DRAWN AND LOADED
 	private String[] getImgLoc() {
-		String[] loc = new String[36];
-		String[] action = {"idle", "walk", "run", "jump", "attack", "die", "hurt"};
+		String loc[] = new String[36];
+		String action[] = {"idle", "WalkLeftAnimation", "WalkRightAnimation", "jump", "attack", "die", "hurt"};
 		String png = ".png";
 		int l = 0;
 		for(int i = 0; i < 7; i++) {
 			for(int j = 0; j < 5; j++) {
-				loc[l] = "playerframes/" + action[i] + j + png;
+				loc[l] = "playeranimation/" + action[i] + j + png;
 				l++;
 			}
 		}
@@ -91,8 +121,8 @@ public class Player extends Sprite {
 
 	//Method to return the next image in the image array
 	public Image getFrame(Image[] frames) {
-        return frames[getNextIndex(frames)];
-    }
+		return frames[getNextIndex(frames)];
+	}
 
 	//Method to find and return the next index to while iterating through Image array
 	private int getNextIndex(Image[] g) {
@@ -132,34 +162,30 @@ public class Player extends Sprite {
 	public void movePlayer(GraphicsContext gc, String way, long now) {
 		//This is where we set which frame animations to use. We create an AnimationTimer and will call that timer to iterate
 		//	through the frames with the t.handle() method when an action is called (by default set to walkRight)
-		AnimationTimer t = itrFrames(walkRight);
-
+		AnimationTimer t;
+		if(getSelectedWeapon() != null)
+			selectWeapon(getSelectedWeapon().getIndex());
+		else
+			selectWeapon(5);
 		//This is our player listener, where we take a keycode and move our player based off the key
 		//We first start the animation timer, set the velocity of which way we want to move, then render the player
-
-		if(way == "UP") {
+		long lastUpdate = 0;
+		if(way == "UP")
+		{
 			//**THIS COMMENTED STUB IS USED TO SET WHICH IMAGE ARRAY TO USE FOR ANIMATIONTIMER
-			//t = itrFrames(jump);
-			t.handle(now);
-			setVelocity(0, 4);
-			/*timer ++
-			if (timer < 5) {
-				velocity = Math.sqrt(velocity);
-			} else {
-				velocity = velocity*velocity;
-				velocity = -velocity;
-			}*/
-			//attempt at a proper jump animation
-			if(getY() >= (getY() + getHeight())) {
-				render(gc);
+			
+			if(isColliding() && now - lastUpdate <= 100_000_000)
+			{
+				t = itrFrames(jump);
+				t.handle(now);
+				setVelocity(getDX(), -10);
+				move();
 			}
-			else {
-				jump();
-			}
-			move();
 			render(gc);
+			
 		}
 		else if(way == "DOWN") {
+			t = itrFrames(walkRight);
 			t.handle(now);
 			setVelocity(0, 5);
 			move();
@@ -168,13 +194,19 @@ public class Player extends Sprite {
 			updateWeapon(gc);
 		}
 		else if(way == "RIGHT")	{
+			t = itrFrames(walkRight);
+			lookingRight = true;
+			selectWeapon(5);
 			t.handle(now);
 			setVelocity(5, 0);
 			move();
 			render(gc);
 		}
 		else if(way == "LEFT") {
-			//t = itrFrames(walkLeft);
+			t = itrFrames(walkLeft);
+			lookingRight = false;
+			selectWeapon(4);
+			
 			t.handle(now);
 			setVelocity(-5, 0);
 			move();
@@ -183,33 +215,69 @@ public class Player extends Sprite {
 		else {
 			//TODO: blank code?
 		}
-		
-		
+
+
 	}
-	public void updateWeapon(GraphicsContext gc) {
-		weapon.render(gc);
-		weapon.updatePosition(getX()+25, getY() + 5);
+	public void updateWeapon(GraphicsContext gc)
+	{
+		for(Weapon w : weapon)
+		{
+			if(w.isOwned() && w.isSelected())
+			{
+				w.render(gc);
+				if(lookingRight)
+				{
+					w.updatePosition(getX(), getY() + 5);
+				}
+				else
+				{
+					System.out.println("Weapon update looking left -- TEST");
+					w.updatePosition(getX() - 20, getY() +5);
+				}
+			}
+		}
 	}
-	
-	public void fireWeapon(GraphicsContext gc, long now) {
+
+	public void fireWeapon(GraphicsContext gc, long now, double dx)
+	{
 		AnimationTimer ammoTimer = new AnimationTimer() {
-			
+			private long update = 0;
 			@Override
 			public void handle(long now) {
-				if(weapon.getAmmunition() > 0) {
+				// TODO Auto-generated method stub
+				Weapon w = getSelectedWeapon();
+				if(ammo > 0 && now - update >= 100_000_000)
+				{
 					System.out.println("Weapon firing");
-					weapon.fire(5, getX(), getY(), gc);
+					if(lookingRight)
+						w.fire(5, getX(), getY(), gc);
+					else
+						w.fire(-5, getX(), getY(), gc);
+					
+					ammo--;
 					System.out.println("Weapon fired");
 				}
+
 			}
 		};
 		ammoTimer.handle(now);
 	}
 	//Attempt to create a player jump. W.I.P
-	public void jump() {
+	public void jump(double y)
+	{
 		System.out.println("Player jumping");
+		/*final double initY = y;
 		setVelocity(getDX(), -5);
-		setY(getY() - (getHeight()/4));
+		move();
+		//setY(getY() - (getHeight()/4));
+		if(getY() < initY - 100)
+		{
+			System.out.println("Testing testing... init Y:" + initY + "| curr Y: " + getY());
+			setVelocity(getDX(), 4);
+		}*/
+
+
+
 	}
 	//Method is used to only get the top quarter of a Tile 2D dimension so the player has a more accurate movement (Any questions I can explain)
 	public boolean intersectsEdge(Tile t) {
@@ -220,7 +288,28 @@ public class Player extends Sprite {
 			return false;
 		}
 	}
-
+	public Weapon getSelectedWeapon()
+	{
+		Weapon ww = null;
+		for(Weapon w : weapon)
+		{
+			if(w.isSelected())
+				ww = w;
+		}
+		return ww;
+	}
+	public void selectWeapon(int wnum)
+	{
+		for(int i = 0; i < weapon.length; i++)
+		{
+			weapon[i].setSelected(false);
+		}
+		weapon[wnum].setSelected(true);
+	}
+	public void setWeaponOwned(int wnum)
+	{
+		weapon[wnum].setOwned(true);
+	}
 
 	//Player Class Getters & Setters: Very Much Required.
 	public void deposit(int c) {
@@ -231,6 +320,10 @@ public class Player extends Sprite {
 	}
 	public int getMoney() {
 		return money;
+	}
+	public int getAmmo()
+	{
+		return ammo;
 	}
 	public int getHp() {
 		return hp;
@@ -271,10 +364,10 @@ public class Player extends Sprite {
 	public void setColliding(boolean colliding) {
 		this.colliding = colliding;
 	}
-	public Weapon getWeapon() {
+	public Weapon[] getWeapon() {
 		return weapon;
 	}
-	public void setWeapon(Weapon weapon) {
+	public void setWeapon(Weapon[] weapon) {
 		this.weapon = weapon;
 	}
 	public void setHp(int hp) {

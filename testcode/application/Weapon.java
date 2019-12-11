@@ -17,10 +17,12 @@ public class Weapon extends Sprite {
 	private int damage;
 	private int ammunition;
 	private ArrayList<Ammo> magazine;
+	private boolean owned = false;
+	private boolean selected = false;
 	private String weaponName;
-	private int serialNum;
+	private int serialNum, index;
 
-	public Weapon(String imgURL) {
+	public Weapon(String imgURL, int weaponIndex) {
 		super(imgURL);
 		Random r = new Random();
 		damage = r.nextInt(50) + 10;
@@ -32,7 +34,9 @@ public class Weapon extends Sprite {
 			magazine.add(new Ammo("Images/Missle.png"));
 		}
 		serialNum = r.nextInt(100000) + 10000;
-		System.out.println("Weapon instantiated"); // TODO: Remove test line
+
+		index = weaponIndex;
+		System.out.println("Weapon instantiated");
 	}
 
 	public void fire(double dx, double x, double y, GraphicsContext gc)
@@ -48,6 +52,14 @@ public class Weapon extends Sprite {
 		}
 	}
 	//Getters
+	public boolean isOwned()
+	{
+		return owned;
+	}
+	public void setOwned(boolean owned)
+	{
+		this.owned = owned;
+	}
 	public int getDamage() {
 		return damage;
 	}
@@ -68,7 +80,45 @@ public class Weapon extends Sprite {
 	public void setAmmunition(int Ammo) {
 		this.ammunition = Ammo;
 	}
-	public ArrayList<Ammo> getAmmo() {
+	
+	public ArrayList<Ammo> getMagazine() {
+		return magazine;
+	}
+
+	public void setMagazine(ArrayList<Ammo> magazine) {
+		this.magazine = magazine;
+	}
+
+	public boolean isSelected() {
+		return selected;
+	}
+	public int getIndex()
+	{
+		return index;
+	}
+	public void setIndex(int i)
+	{
+		index = i;
+	}
+	
+	public void setSelected(boolean selected) {
+		this.selected = selected;
+	}
+
+	public void setDamage(int damage) {
+		this.damage = damage;
+	}
+
+	public void setWeaponName(String weaponName) {
+		this.weaponName = weaponName;
+	}
+
+	public void setSerialNum(int serialNum) {
+		this.serialNum = serialNum;
+	}
+
+	public ArrayList<Ammo> getAmmo()
+	{
 		return magazine;
 	}
 }

@@ -61,10 +61,11 @@ public class Enemy extends Sprite {
 		//animateEnemy is an AnimationTimer that is used to iterate through the frames. We set the timer to iterate through the idle frames by default
 		animateEnemy = itrFrames(idle);
 	}
-	public void die(GraphicsContext gc, long now) {
-		animateEnemy = itrDie();
+	public void die(GraphicsContext gc, long now)
+	{
 		animateEnemy.handle(now);
 		render(gc);
+		alive(false);
 	}
 	//method to update the enemy animation and position based off player location and current game time
 	public void update(Player p, GraphicsContext gc, long now) {
@@ -100,6 +101,12 @@ public class Enemy extends Sprite {
 			animateEnemy = itrFrames(idle);
 			animateEnemy.handle(3000);
 			render(gc);
+		}
+		
+		if(health < 1)
+		{
+			animateEnemy = itrFrames(die);
+			die(gc, now);
 		}
 		
 		gc.fillText("HP: " + getHealth() + "\nATK: " + getDamage(), getX(), getY() + getHeight() + 20);
@@ -144,8 +151,10 @@ public class Enemy extends Sprite {
 			private long lastUpdate = 0 ;
 			@Override
 			public void handle(long now) {
-					if(i < 5 && now - lastUpdate >= 1000_000_000) {
-						setFrame(die[i++]);
+					if(i < 5 && now - lastUpdate >= 1_000_000_000)
+					{
+						setFrame(die[i]);
+						i++;
 					}
 					else {
 						alive(false);

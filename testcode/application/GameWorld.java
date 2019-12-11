@@ -14,6 +14,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
@@ -25,11 +26,15 @@ import java.util.Random;
 public class GameWorld extends Stage {
 	//GLOBAL VARIABLES
 	private Player player;
-	private Tile[] tiles;
-	private Tile[] coins;
+
+	private Tile tiles[];
+	private Tile door;
+	private Tile coins[];
 	private ArrayList<String> keyinput = new ArrayList<>();
 	private ArrayList<Enemy> goblins;
 	private boolean paused = false;
+	private boolean playing = true;
+	private boolean win = false;
 	private AnimationTimer gameloop;
 
 	//DEFAULT CONSTRUCTOR: Point of Execution
@@ -88,6 +93,10 @@ public class GameWorld extends Stage {
 			coins[i].updatePosition(coinPos[i], coinPos[i]);
 			coins[i].setReward(1);
 		}
+
+		//instantiate door
+		door = new Tile("Images/door.png");
+		door.updatePosition(1000, 100);
 	}
 	//Renders our Tiles
 	private void renderTiles(GraphicsContext gc) {
@@ -105,19 +114,27 @@ public class GameWorld extends Stage {
 			}
 		}
 
+		if(door.isVisible())
+		{
+			door.render(gc);
+		}
 	}
 	//This method is called continuously throughout our game loop to continuously render our objects to the screen
 	private void updateSprites(GraphicsContext gc, long now) {
 		drawBackground(gc);
 
 		//Check is player is alive, then update player
-		if(player.alive) {
+		if(player.getHp() > 0) {
 			player.move();
 			player.render(gc);
 			player.updateWeapon(gc);
 		}
+		else
+		{
+			player.setAlive(false);
+		}
 
-		for(Ammo a : player.getWeapon().getAmmo())
+		for(Ammo a : player.getSelectedWeapon().getAmmo())
 		{
 			if(a.visible = true)
 			{
@@ -126,20 +143,21 @@ public class GameWorld extends Stage {
 			}
 			else
 			{
-				player.getWeapon().getAmmo().remove(a);
+				player.getSelectedWeapon().getAmmo().remove(a);
 			}
 		}
 
 		//and enemy sprites
 		for(Enemy e : goblins) {
-			if(e.getHealth() > 0 && e.isAlive()) {
+			if(e.isAlive()) {
 				e.update(player, gc, now);
 			}
 			else
 			{
-				e.die(gc, now);
+				//goblins.remove(e);]
 			}
 		}
+
 
 		//checkCollisions is called when we are updating our sprites
 		checkCollisions(gc);
@@ -187,25 +205,55 @@ public class GameWorld extends Stage {
 
 
 		//**GAME LOOP**: AnimationTimer() is our main game loop, it updates our objects in the game real time
-		if(!paused || !player.isAlive()) {
-			gameloop = gameLoop(gc);
-			gameloop.start();
-		}
+		gameloop = gameLoop(gc);
+		gameloop.start();
 		show();
 	}
+
+
 	private AnimationTimer gameLoop(GraphicsContext gc) {
 		return new AnimationTimer() {
+			private long lastUpdate = 0;
 			public void handle(long now) {
-				//These 4 Method calls are to be called continuously while the game is running
 				keyListener(keyinput, gc, now);
+				if(!paused && player.isAlive()) 
+				{
+					//updates the frame every 25 ms
+					if(now - lastUpdate >= 25_000_000)
+					{
+						//These 4 Method calls are to be called continuously while the game is running
 
-				//check if game is paused (Work in progress)
-				if(paused) {
-					drawPause(gc);
+						//check if game is paused (Work in progress)
+						gravity(gc);
+						updateSprites(gc, now);
+
+						lastUpdate = now;
+					}
 				}
-				else {
-					gravity(gc);
-					updateSprites(gc, now);
+				else if(!player.isAlive())
+				{
+					drawGameOver(gc);
+				}
+				else
+				{
+					drawPause(gc);
+					player.setVelocity(0, 0);
+				}
+
+				if(win == true)
+				{
+					drawWin(gc);
+					gameloop.stop();
+
+					//renderGame();
+					//We can create a new gameworld
+				}
+				
+				if(playing == false)
+				{
+					close();
+					gameloop.stop();
+					hide();
 				}
 			}
 		};
@@ -219,6 +267,8 @@ public class GameWorld extends Stage {
 			e.setY(e.getY() + 5);
 		}
 	}
+	//this is a test and a test only
+	int p = 0;
 	//This method handles our KeyListener by taking in Keyboard input as a string and the current game time to move the player with the movePlayer() method
 	private void keyListener(ArrayList<String> keyinput, GraphicsContext gc, long now) {
 		if(keyinput.contains("DOWN")) {
@@ -226,10 +276,7 @@ public class GameWorld extends Stage {
 		}
 		if(keyinput.contains("UP")) {
 			player.movePlayer(gc, "UP", now);
-			if(player.getY() < player.getY()-100) {
-				player.setVelocity(player.getDX(), -10);
-				player.setY(player.getY() + 20);
-			}
+			
 		}
 		if(keyinput.contains("LEFT")) {
 			player.movePlayer(gc, "LEFT", now);
@@ -247,12 +294,21 @@ public class GameWorld extends Stage {
 		}
 		if(keyinput.contains("SPACE"))
 		{
-			player.fireWeapon(gc, now);
+			if(player.getDX() >= 0)
+				player.fireWeapon(gc, now, 5);
+			else
+				player.fireWeapon(gc, now, -5);
 		}
 		if(keyinput.contains("P"))
 		{
 			pause();
+			p++;
+			System.out.println("P pressed: " + p);
+			return;
+
+
 		}
+
 	}
 
 	//method to pause and unpause the game; when the method is called, it changes the boolean, currently a bug exists where the method is called twice due to the keylistener calling the method twice
@@ -276,7 +332,7 @@ public class GameWorld extends Stage {
 		}
 		for(Tile t : tiles)
 		{
-			if(player.intersectsEdge(t))
+			if(player.intersectsEdge(t) && player.getDY() > 0)
 			{
 				//System.out.println("PLAYER COLLIDING WITH TILE");
 				player.setY(t.getY() - 55);
@@ -289,11 +345,11 @@ public class GameWorld extends Stage {
 
 		for(Enemy g : goblins)
 		{
-			for(Ammo a : player.getWeapon().getAmmo())
+			for(Ammo a : player.getSelectedWeapon().getAmmo())
 			{
 				if(a.visible && g.intersects(a))
 				{
-					g.setHealth(g.getHealth()-player.getWeapon().getDamage());
+					g.setHealth(g.getHealth()-player.getSelectedWeapon().getDamage());
 				}
 			}
 		}
@@ -331,12 +387,19 @@ public class GameWorld extends Stage {
 			}
 		}
 
+		//check win if player reaches door
+		if(player.intersects(door))
+		{
+			//win game
+			win = true;
+		}
+
 		//check player out of bounds
-		if(player.getX() > 1280) {
+		if(player.getX() > 1280 || player.getX() < 0) {
 			player.setX(1);
 		}
 		if(player.getY() > 960)	{
-			player.setY(1);
+			player.setAlive(false);
 		}
 	}
 
@@ -347,6 +410,30 @@ public class GameWorld extends Stage {
 	//Draws the Game Over Screen
 	private void drawGameOver(GraphicsContext gc) {
 		//DRAW GAME OVER SCREEN HERE gc.drawImage or gc.fillText
+		gc.drawImage(new Image("Images/gameover.png"), 0, 0);
+	}
+	//draw win screen
+	private void drawWin(GraphicsContext gc)
+	{
+		gc.drawImage(new Image("Images/winscreen.png"), 0, 0);
+		Image nextBtn = new Image("Images/nextlvlbtn.png");
+		gc.drawImage(nextBtn, 620, 480);
+		EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() { 
+			@Override 
+			public void handle(MouseEvent e) { 
+				if(e.getX() > 620 && e.getX() < (620 + nextBtn.getWidth()))
+				{
+					close();
+					new GameWorld();
+					win = false;
+					playing = false;
+					
+				}
+
+			} 
+		};   
+		//Adding event Filter 
+		addEventFilter(MouseEvent.MOUSE_CLICKED, eventHandler);
 	}
 	//draw pause
 	private void drawPause(GraphicsContext gc) {
@@ -359,6 +446,7 @@ public class GameWorld extends Stage {
 		gc.fillText("HP: " + player.getHp(), 0, 60);
 		gc.fillText("LVL: " + player.getLvl(), 0, 95);
 		gc.fillText("ATK: " + player.getAtk(), 0, 130);
+		gc.fillText("AMMO: " + player.getAmmo(), 200, 130);
 	}
 	//METHOD drawBackground() is called to draw our background image before drawing our sprite and tile objects on top
 	private void drawBackground(GraphicsContext gc)	{
