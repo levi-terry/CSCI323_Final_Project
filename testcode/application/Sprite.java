@@ -46,8 +46,7 @@ public class Sprite {
     }
  
     //RENDERS our sprite to the screen by calling GraphicsContext
-    public void render(GraphicsContext gc)
-    {
+    public void render(GraphicsContext gc) {
         gc.drawImage(image, posX, posY);
     }
     //returns x coordinate
@@ -75,8 +74,7 @@ public class Sprite {
 		image = img;
 	}
 	//Gets a 2D boundary for our image used for collision detection
-    public Rectangle2D getBoundary()
-    {
+    public Rectangle2D getBoundary() {
         return new Rectangle2D(posX, posY, width, height);
     }
  
