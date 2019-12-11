@@ -12,6 +12,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -33,8 +34,25 @@ public class Main extends Application {
 
 			//Class to handle our 2D Graphics
 			GraphicsContext gc = canvas.getGraphicsContext2D();
-			//Image mainmenu = new Image(" ");
-			primaryStage = new GameWorld();
+			Image mainmenu = new Image("Images/mainmenu.png");
+			Image play = new Image("Images/playbtn.png");
+			
+			gc.drawImage(mainmenu, 0, 0);
+			gc.drawImage(play, 400, 600);
+			EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() { 
+				@Override 
+				public void handle(MouseEvent e) { 
+					if(e.getX() > 390 && e.getX() < (390 + play.getWidth()))
+					{
+						new GameWorld();	
+						primaryStage.close();
+					}
+
+				} 
+			};   
+			//Adding event Filter 
+			primaryStage.addEventFilter(MouseEvent.MOUSE_CLICKED, eventHandler);
+			primaryStage.show();
 		}
 		catch(Exception e) {
 			e.printStackTrace();

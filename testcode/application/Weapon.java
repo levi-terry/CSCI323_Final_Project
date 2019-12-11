@@ -26,7 +26,7 @@ public class Weapon extends Sprite {
 		super(imgURL);
 		Random r = new Random();
 		damage = r.nextInt(50) + 10;
-		ammunition = r.nextInt(12) + 6;
+		ammunition = 100;
 		weaponName = imgURL;
 		magazine = new ArrayList<>();
 		for(int i = 0; i < ammunition; i++)
@@ -38,18 +38,16 @@ public class Weapon extends Sprite {
 		index = weaponIndex;
 		System.out.println("Weapon instantiated");
 	}
-
 	public void fire(double dx, double x, double y, GraphicsContext gc)
 	{
-		if(ammunition > 0 && !magazine.isEmpty())
-		{
-			magazine.get(ammunition-1).setX(x);
-			magazine.get(ammunition-1).setY(y);
-			magazine.get(ammunition-1).setVelocity(dx, 0);
-			magazine.get(ammunition-1).visible = true;
-			System.out.println("Ammo shot"); // TODO: Remove test line
-			
-		}
+			ammunition--;
+			if(ammunition > 0)
+			{
+				magazine.get(ammunition).updatePosition(x, y);
+				magazine.get(ammunition).setVelocity(dx, 0);
+				magazine.get(ammunition).visible = true;
+			}
+			System.out.println("Ammo shot"); // TODO: Remove test line			
 	}
 	//Getters
 	public boolean isOwned()
@@ -127,6 +125,6 @@ class Ammo extends Sprite {
 	boolean visible;
 	public Ammo(String imageURL) {
 		super(imageURL);
-		visible = true;
+		visible = false;
 	}
 }

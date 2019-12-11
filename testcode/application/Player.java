@@ -173,16 +173,16 @@ public class Player extends Sprite {
 		if(way == "UP")
 		{
 			//**THIS COMMENTED STUB IS USED TO SET WHICH IMAGE ARRAY TO USE FOR ANIMATIONTIMER
-			
-			if(isColliding() && now - lastUpdate <= 100_000_000)
+
+			if(isColliding())
 			{
-				t = itrFrames(jump);
-				t.handle(now);
-				setVelocity(getDX(), -10);
-				move();
+
 			}
 			render(gc);
-			
+			t = itrFrames(jump);
+			t.handle(now);
+			setVelocity(getDX(), -10);
+			move();
 		}
 		else if(way == "DOWN") {
 			t = itrFrames(walkRight);
@@ -191,7 +191,6 @@ public class Player extends Sprite {
 			move();
 			System.out.println("PLAYER MOVING");
 			render(gc);
-			updateWeapon(gc);
 		}
 		else if(way == "RIGHT")	{
 			t = itrFrames(walkRight);
@@ -206,7 +205,7 @@ public class Player extends Sprite {
 			t = itrFrames(walkLeft);
 			lookingRight = false;
 			selectWeapon(4);
-			
+
 			t.handle(now);
 			setVelocity(-5, 0);
 			move();
@@ -238,29 +237,20 @@ public class Player extends Sprite {
 		}
 	}
 
-	public void fireWeapon(GraphicsContext gc, long now, double dx)
+	public void fireWeapon(GraphicsContext gc)
 	{
-		AnimationTimer ammoTimer = new AnimationTimer() {
-			private long update = 0;
-			@Override
-			public void handle(long now) {
-				// TODO Auto-generated method stub
-				Weapon w = getSelectedWeapon();
-				if(ammo > 0 && now - update >= 100_000_000)
-				{
-					System.out.println("Weapon firing");
-					if(lookingRight)
-						w.fire(5, getX(), getY(), gc);
-					else
-						w.fire(-5, getX(), getY(), gc);
-					
-					ammo--;
-					System.out.println("Weapon fired");
-				}
+		Weapon w = getSelectedWeapon();
+		if(ammo > 0)
+		{
+			System.out.println("Weapon firing");
+			if(lookingRight)
+				w.fire(5, getX(), getY(), gc);
+			else
+				w.fire(-5, getX(), getY(), gc);
 
-			}
-		};
-		ammoTimer.handle(now);
+			ammo--;
+			System.out.println("Weapon fired");
+		}
 	}
 	//Attempt to create a player jump. W.I.P
 	public void jump(double y)

@@ -172,7 +172,7 @@ public class GameWorld extends Stage {
 		Scene scene = new Scene(root,1240,960);
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		setScene(scene);
-		setTitle("Dungeons Deep - version 1.06");
+		setTitle("Dungeons Deep - version 2.12");
 		Canvas canvas = new Canvas(1240, 960);
 		root.getChildren().add(canvas);
 
@@ -294,10 +294,7 @@ public class GameWorld extends Stage {
 		}
 		if(keyinput.contains("SPACE"))
 		{
-			if(player.getDX() >= 0)
-				player.fireWeapon(gc, now, 5);
-			else
-				player.fireWeapon(gc, now, -5);
+			player.fireWeapon(gc);
 		}
 		if(keyinput.contains("P"))
 		{
@@ -403,25 +400,22 @@ public class GameWorld extends Stage {
 		}
 	}
 
-	//Draws the Game Start Screen has only two options for now; start & quit
-	private void drawSplashScreen(GraphicsContext gc) {
-
-	}
 	//Draws the Game Over Screen
 	private void drawGameOver(GraphicsContext gc) {
 		//DRAW GAME OVER SCREEN HERE gc.drawImage or gc.fillText
 		gc.drawImage(new Image("Images/gameover.png"), 0, 0);
+		
 	}
 	//draw win screen
 	private void drawWin(GraphicsContext gc)
 	{
 		gc.drawImage(new Image("Images/winscreen.png"), 0, 0);
 		Image nextBtn = new Image("Images/nextlvlbtn.png");
-		gc.drawImage(nextBtn, 620, 480);
+		gc.drawImage(nextBtn, 390, 670);
 		EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() { 
 			@Override 
 			public void handle(MouseEvent e) { 
-				if(e.getX() > 620 && e.getX() < (620 + nextBtn.getWidth()))
+				if(e.getX() > 390 && e.getX() < (390 + nextBtn.getWidth()))
 				{
 					close();
 					new GameWorld();
@@ -429,7 +423,6 @@ public class GameWorld extends Stage {
 					playing = false;
 					
 				}
-
 			} 
 		};   
 		//Adding event Filter 
