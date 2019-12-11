@@ -182,7 +182,7 @@ public class Player extends Sprite {
 			t.handle(now);
 			setVelocity(0, 5);
 			move();
-			System.out.println("PLAYER MOVING");
+			//System.out.println("PLAYER MOVING"); // TODO: Remove test line
 			render(gc);
 		}
 		else if(way == "RIGHT")	{

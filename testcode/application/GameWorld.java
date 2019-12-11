@@ -29,9 +29,9 @@ public class GameWorld extends Stage {
 	//GLOBAL VARIABLES
 	private Player player;
 
-	private Tile tiles[];
+	private Tile[] tiles;
 	private Tile door;
-	private Tile coins[];
+	private Tile[] coins;
 	private ArrayList<String> keyinput = new ArrayList<>();
 	private ArrayList<Enemy> goblins;
 	private boolean paused = false;
@@ -49,6 +49,7 @@ public class GameWorld extends Stage {
 		//Instantiate player
 		player = new Player();
 		player.setVelocity(0, 0);
+		player.updatePosition(1000, 875); // Set starting player location
 
 		instantiateGoblins();
 
@@ -60,31 +61,34 @@ public class GameWorld extends Stage {
 		//unit test
 		int t = 125;
 		goblins = new ArrayList<>();
-		for(int i = 0; i < 11; i++) {
+		int[] gobXPos = {735, 400, 280, 120};
+		int[] gobYPos = {650, 500, 370, 120};
+		for(int i = 0; i < 4; i++) {
 			goblins.add(new Enemy("Images/EnemySprites/goblins/running/runLeft0.png"));
-			goblins.get(i).updatePosition(t*(i+2), t*(i+1));
+			goblins.get(i).updatePosition(gobXPos[i], gobYPos[i]);
 		}
 	}
 
 	//Creates our tiles (Not calling this method would result in a NullPointerException)
 	private void instantiateTiles()	{
 		//Generates an int array of X and Y coords of where our tiles should be drawn
-		int[] tileXPos = {125,380,250,625,550,420,690,920,380,800};
-		int[] tileYPos = {125,900,250,625,550,420,690,920,900,900};
+		int[] tileXPos = {800,500,420,350,280,320,400,560,735,905};
+		int[] tileYPos = {370,370,370,370,370,425,500,575,650,780};
 		String[] platforms = {"platform1.png", "platformdoor.png", "platformx256.png", "platform512x128.png"};
 		Random r = new Random();
 
-		int[] platXPos = {10, 560, 320, 10, 820};
-		int[] platYPos = {920, 920, 720, 420, 500};
+		// Platforms create base floor
+		int[] platXPos = {200, 400, 600, 800, 1000};
+		int[] platYPos = {900, 900, 900, 900, 900};
 
-		int[] coinPos = {900,700,500,400,600};
+		int[] coinPos = {200,300,400,500,600};
 		//Instantiates the tiles with our tile images (AS OF NOW)
 		tiles = new Tile[10];
 		for(int i = 0; i < 5; i++) {
 			tiles[i] = new Tile("Images/platform256x128.png");
 			tiles[i].updatePosition(platXPos[i], platYPos[i]);
 		}
-		for(int i = 5; i < 10; i++)	{
+		for(int i = 5; i < tiles.length; i++)	{
 			tiles[i] = new Tile("Images/TileSprites/LevelObjects/DungeonPlatform.png");
 			tiles[i].updatePosition(tileXPos[i], tileYPos[i]);
 		}
@@ -191,7 +195,7 @@ public class GameWorld extends Stage {
 			@Override
 			public void handle(KeyEvent event) {
 				String code = event.getCode().toString();
-				System.out.println(code + " Pressed"); //TODO: Remove test line
+				//System.out.println(code + " Pressed"); //TODO: Remove test line
 				if(!keyinput.contains(code)) {
 					keyinput.add(code);
 				}
@@ -200,7 +204,7 @@ public class GameWorld extends Stage {
 		scene.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent event) {
 				String code = event.getCode().toString();
-				System.out.println(code + " Released"); //TODO: Remove test line
+				//System.out.println(code + " Released"); //TODO: Remove test line
 				keyinput.remove(code);
 			}
 		});
@@ -302,7 +306,7 @@ public class GameWorld extends Stage {
 		{
 			pause();
 			p++;
-			System.out.println("P pressed: " + p);
+			//System.out.println("P pressed: " + p); //TODO: Remove test line
 			return;
 		}
 		if(keyinput.contains("ESCAPE"))
@@ -336,7 +340,7 @@ public class GameWorld extends Stage {
 		{
 			if(player.intersectsEdge(t) && player.getDY() > 0)
 			{
-				//System.out.println("PLAYER COLLIDING WITH TILE");
+				//System.out.println("PLAYER COLLIDING WITH TILE"); // TODO: Remove test line
 				player.setY(t.getY() - 55);
 				//This flag is used to make a smoother jump when the player jumps
 				player.setColliding(true);
@@ -363,7 +367,7 @@ public class GameWorld extends Stage {
 		//check for coin collision
 		for(Tile c : coins) {
 			if(player.intersects(c)) {
-				System.out.println("You found a coin and this is a test... coin now going to sleep"); // TODO: Remove test line
+				//System.out.println("You found a coin and this is a test... coin now going to sleep"); // TODO: Remove test line
 				player.deposit(c.getReward());
 				c.setVisible(false);
 			}

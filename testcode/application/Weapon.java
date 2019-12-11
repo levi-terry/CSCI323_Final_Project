@@ -29,33 +29,28 @@ public class Weapon extends Sprite {
 		ammunition = 100;
 		weaponName = imgURL;
 		magazine = new ArrayList<>();
-		for(int i = 0; i < ammunition; i++)
-		{
+		for(int i = 0; i < ammunition; i++) {
 			magazine.add(new Ammo("Images/Missle.png"));
 		}
 		serialNum = r.nextInt(100000) + 10000;
 
 		index = weaponIndex;
-		System.out.println("Weapon instantiated");
+		//System.out.println("Weapon instantiated"); // TODO: Remove test line
 	}
-	public void fire(double dx, double x, double y, GraphicsContext gc)
-	{
+	public void fire(double dx, double x, double y, GraphicsContext gc) {
 			ammunition--;
-			if(ammunition > 0)
-			{
+			if(ammunition > 0) {
 				magazine.get(ammunition).updatePosition(x, y);
 				magazine.get(ammunition).setVelocity(dx, 0);
 				magazine.get(ammunition).visible = true;
 			}
-			System.out.println("Ammo shot"); // TODO: Remove test line			
+			//System.out.println("Ammo shot"); // TODO: Remove test line
 	}
 	//Getters
-	public boolean isOwned()
-	{
+	public boolean isOwned() {
 		return owned;
 	}
-	public void setOwned(boolean owned)
-	{
+	public void setOwned(boolean owned) {
 		this.owned = owned;
 	}
 	public int getDamage() {
@@ -94,8 +89,7 @@ public class Weapon extends Sprite {
 	{
 		return index;
 	}
-	public void setIndex(int i)
-	{
+	public void setIndex(int i) {
 		index = i;
 	}
 	
@@ -115,8 +109,7 @@ public class Weapon extends Sprite {
 		this.serialNum = serialNum;
 	}
 
-	public ArrayList<Ammo> getAmmo()
-	{
+	public ArrayList<Ammo> getAmmo() {
 		return magazine;
 	}
 }

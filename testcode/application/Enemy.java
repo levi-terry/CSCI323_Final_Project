@@ -61,8 +61,7 @@ public class Enemy extends Sprite {
 		//animateEnemy is an AnimationTimer that is used to iterate through the frames. We set the timer to iterate through the idle frames by default
 		animateEnemy = itrFrames(idle);
 	}
-	public void die(GraphicsContext gc, long now)
-	{
+	public void die(GraphicsContext gc, long now) {
 		animateEnemy.handle(now);
 		render(gc);
 		alive(false);
@@ -103,8 +102,7 @@ public class Enemy extends Sprite {
 			render(gc);
 		}
 		
-		if(health < 1)
-		{
+		if(health < 1) {
 			animateEnemy = itrFrames(die);
 			die(gc, now);
 		}
