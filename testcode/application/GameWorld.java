@@ -139,12 +139,13 @@ public class GameWorld extends Stage {
 		{
 			player.setAlive(false);
 		}
-
+		//**BUG HERE**: The Game only renders the ammo of the gun that is 'selected' however when we look left or right, a new gun is selected 
 		for(Ammo a : player.getSelectedWeapon().getAmmo())
 		{
 			if(a.visible = true)
 			{
 				a.render(gc);
+				gc.drawImage(a.getImage(), a.getX(), a.getY());
 				a.move();
 			}
 			else
@@ -296,7 +297,7 @@ public class GameWorld extends Stage {
 		}
 		if(keyinput.contains("R") && keyinput.size() == 1)
 		{	
-
+			
 		}
 		if(keyinput.contains("SPACE"))
 		{
@@ -311,8 +312,9 @@ public class GameWorld extends Stage {
 		}
 		if(keyinput.contains("ESCAPE"))
 		{
-			System.exit(0);
+			playing = false;
 			JOptionPane.showMessageDialog(null, "Game Closed Successfully");
+			System.exit(0);
 		}
 
 	}

@@ -167,12 +167,11 @@ public class Player extends Sprite {
 		long lastUpdate = 0;
 		if(way == "UP") {
 			//**THIS COMMENTED STUB IS USED TO SET WHICH IMAGE ARRAY TO USE FOR ANIMATIONTIMER
-
-			if(isColliding()) {
-				// TODO: Figure out how to allow jumping only when on ground
+			t = itrFrames(jump);
+			if(!lookingRight) {
+				t = itrFrames(walkLeft);
 			}
 			render(gc);
-			t = itrFrames(jump);
 			t.handle(now);
 			setVelocity(getDX(), -10);
 			move();
@@ -231,7 +230,7 @@ public class Player extends Sprite {
 			if(lookingRight) {
 				w.fire(5, getX(), getY(), gc);
 			}
-			else {
+			if(!lookingRight){
 				w.fire(-5, getX(), getY(), gc);
 			}
 			ammo--;
