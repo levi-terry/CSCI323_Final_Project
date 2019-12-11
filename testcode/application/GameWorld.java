@@ -23,6 +23,8 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.swing.JOptionPane;
+
 public class GameWorld extends Stage {
 	//GLOBAL VARIABLES
 	private Player player;
@@ -302,8 +304,11 @@ public class GameWorld extends Stage {
 			p++;
 			System.out.println("P pressed: " + p);
 			return;
-
-
+		}
+		if(keyinput.contains("ESCAPE"))
+		{
+			System.exit(0);
+			JOptionPane.showMessageDialog(null, "Game Closed Successfully");
 		}
 
 	}
